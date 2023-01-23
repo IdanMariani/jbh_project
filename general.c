@@ -66,7 +66,18 @@ void print_list(Customer *customers, int length)
     printf("\n");
 }
 
+void switch_to_lower(char *buffer)
+{
+    int length = strlen(buffer);
 
+    for (int i = 0; i < length; i++)
+    {
+        if (isupper(buffer[i]))
+        {
+            buffer[i] = tolower(buffer[i]);
+        }
+    }
+}
 
 
 
