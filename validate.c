@@ -64,3 +64,37 @@ bool validate_lastname(char *lastname)
     return true;
 }
 
+bool validate_id(char *id)
+{
+    int length = strlen(id);
+
+    if ((length != 9))
+    {
+        printf("Error reading id - need min of 9 characters.\n");
+        return false;
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (!is_number(id[i]))
+        {
+            printf("Error reading id - need only numbers.\n");
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

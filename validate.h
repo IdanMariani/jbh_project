@@ -8,6 +8,7 @@ bool is_letter(char c);
 bool is_number(char c);
 bool validate_name(char *name);
 bool validate_lastname(char *lastname);
+bool validate_id(char *id);
 
 
 
