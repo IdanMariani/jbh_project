@@ -22,6 +22,7 @@ void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
 void print_list(Customer *customers, int length);
 void switch_to_lower(char *buffer);
+bool spaces_count(char *string, int index);
 
 
 

@@ -79,7 +79,67 @@ void switch_to_lower(char *buffer)
     }
 }
 
+bool spaces_count(char *string, int index)
+{
+    int space_counts = 0;
 
+    int length = strlen(string);
+
+    for (int i = 0; i < length; i++)
+    {
+        if (string[i] == ' ')
+        {
+            space_counts++;
+        }
+    }
+
+    switch (index)
+    {
+    case 0:
+        if (space_counts > 2)
+        {
+            return true;
+        }
+        break;
+    case 1:
+        if (space_counts > 2)
+        {
+            return true;
+        }
+        break;
+    case 2:
+
+        if (space_counts > 1)
+        {
+            return true;
+        }
+        break;
+    case 3:
+
+        if (space_counts > 1)
+        {
+            return true;
+        }
+        break;
+    case 4:
+        if (space_counts > 1)
+        {
+            return true;
+        }
+
+        break;
+    case 5:
+        if (space_counts > 1)
+        {
+            return true;
+        }
+        break;
+    default:
+        break;
+    }
+
+    return false;
+}
 
 
 
