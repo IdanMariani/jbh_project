@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    Customer *customers;
+    Customer *customers, *list;
     FILE *file;
 
     if (argc != 2)
@@ -31,6 +31,13 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
+
+    // create new list array from csv
+    int new_list_length = 0;
+    list = count_debt_and_init_array(customers, max_lines, &new_list_length);
+
+    // free old list from csv
+    free(customers);
 
     return 0;
 }

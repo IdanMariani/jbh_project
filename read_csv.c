@@ -96,3 +96,72 @@ bool find_highest_date(char *date1, char *date2)
 
     return false;
 }
+
+Customer *count_debt_and_init_array(Customer *customers, int length, int *new_list_length)
+{
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    char highest_so_far[11];
+    char phone[11];
+    int new_size = 0;
+    Customer *new_arr = malloc(sizeof(Customer));
+    if (new_arr == NULL)
+    {
+        printf("Error malloc new_arr\n");
+        return;
+    }
+
+    for (i = 0; i < length; i++)
+    {
+        float total_debt = customers[i].debt;
+        strcpy(highest_so_far, customers[i].date);
+        strcpy(phone, customers[i].phone);
+        int leftFlag = 0;
+        for (j = 0; j < i; j++) // LEFT PART
+        {
+            if (strcmp(customers[j].id, customers[i].id) == 0)
+            {
+                leftFlag = 1;
+                break;
+            }
+        }
+        if (leftFlag == 1) // IF FOUND ON LEFT SIDE
+        {
+            continue;
+        }
+        for (j = i + 1; j < length; j++) // RIGHT PART
+        {
+            if (strcmp(customers[j].id, customers[i].id) == 0)
+            {
+                total_debt += customers[j].debt;
+                strcpy(phone, customers[j].phone);
+                if (find_highest_date(highest_so_far, customers[j].date))
+                {
+                    strcpy(highest_so_far, customers[j].date);
+                }
+            }
+        }
+        new_size++;
+        new_arr = realloc(new_arr, sizeof(Customer) * new_size);
+        for (k; k < new_size; k++)
+        {
+            strcpy(new_arr[k].first_name, customers[i].first_name);
+            strcpy(new_arr[k].last_name, customers[i].last_name);
+            strcpy(new_arr[k].id, customers[i].id);
+            strcpy(new_arr[k].phone, phone);
+            new_arr[k].debt = total_debt;
+            strcpy(new_arr[k].date, highest_so_far);
+        }
+    }
+
+    *new_list_length = new_size;
+
+    if (new_arr == NULL)
+    {
+        printf("new arr is NULL\n");
+        return;
+    }
+
+    return new_arr;
+}
