@@ -1,5 +1,5 @@
-main: main.o read_csv.o validate.o general.o 
-	gcc main.o read_csv.o validate.o general.o -o main
+main: main.o read_csv.o validate.o general.o select_operator.o
+	gcc main.o read_csv.o validate.o general.o select_operator.o -o main
 
 main.o: main.c
 	gcc -Wall -g -c main.c
@@ -13,8 +13,8 @@ validate.o: validate.c
 general.o: general.c
 	gcc -Wall -g -c general.c
 
-# select_operator.o: select_operator.c
-# 	gcc -Wall -g -c select_operator.c
+select_operator.o: select_operator.c
+	gcc -Wall -g -c select_operator.c
 
 # option_menu.o: option_menu.c
 # 	gcc -Wall -g -c option_menu.c

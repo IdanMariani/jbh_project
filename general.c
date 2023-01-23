@@ -134,7 +134,8 @@ bool spaces_count(char *string, int index)
             return true;
         }
         break;
-        s default : break;
+    default:
+        break;
     }
 
     return false;
