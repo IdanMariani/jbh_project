@@ -6,6 +6,7 @@
 
 bool is_letter(char c);
 bool is_number(char c);
+bool validate_name(char *name);
 
 
 
