@@ -3,6 +3,7 @@
 
 #include "general.h"
 
+bool fill_portion2_operator(int index, char *portion2);
 
 
 
