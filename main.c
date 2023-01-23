@@ -2,6 +2,7 @@
 
 int main(int argc, char *argv[])
 {
+    
     FILE *file;
 
     if (argc != 2)
