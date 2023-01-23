@@ -10,6 +10,7 @@ bool validate_name(char *name);
 bool validate_lastname(char *lastname);
 bool validate_id(char *id);
 bool validate_phone_number(char *number);
+bool validate_debt(char *number);
 
 
 

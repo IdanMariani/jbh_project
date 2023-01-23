@@ -112,7 +112,36 @@ bool validate_phone_number(char *number)
     return true;
 }
 
+bool validate_debt(char *number)
+{
+    int length = strlen(number);
 
+    if (number[0] == '-')
+    {
+        for (int i = 1; i < length; i++)
+        {
+            if (!(number[i] >= 48 && number[i] <= 57))
+            {
+                printf("Error reading debt - need only numbers.");
+                return false;
+            }
+        }
+    }
+
+    else
+    {
+        for (int i = 0; i < length; i++)
+        {
+            if (!(number[i] >= 48 && number[i] <= 57))
+            {
+                printf("Error reading debt - need only numbers.");
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
 
 
 
