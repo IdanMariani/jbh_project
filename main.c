@@ -47,5 +47,7 @@ int main(int argc, char *argv[])
     bool prompt_menu_for_first_time = true;
     prompt_menu(&prompt_menu_for_first_time);
 
+    sort_list(list, new_list_length);
+
     return 0;
 }

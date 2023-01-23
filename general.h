@@ -19,6 +19,8 @@ typedef struct
 } Customer;
 
 void prompt_menu(bool *first_time);
+void sort_list(Customer *customers, int length);
+
 
 
 

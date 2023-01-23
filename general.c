@@ -25,7 +25,28 @@ void prompt_menu(bool *first_time)
     *first_time = false;
 }
 
-
+void sort_list(Customer *customers, int length)
+{
+    bool swapped;
+    for (int i = 0; i < length - 1; i++)
+    {
+        swapped = false;
+        for (int j = 0; j < length - 1 - i; j++)
+        {
+            if (customers[j].debt < customers[j + 1].debt)
+            {
+                Customer temp = customers[j];
+                customers[j] = customers[j + 1];
+                customers[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        if (swapped == false)
+        {
+            break;
+        }
+    }
+}
 
 
 
