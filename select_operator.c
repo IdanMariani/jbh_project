@@ -215,3 +215,84 @@ void last_name_operator(Customer *list, int new_list_length, char portion2, char
         break;
     }
 }
+
+void id_operator(Customer *list, int new_list_length, char portion2, char *portion3)
+{
+    switch (portion2)
+    {
+    case '!':
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+        for (int i = 0; i < 85; i++)
+        {
+            printf("*");
+        }
+        printf("\n");
+        for (int i = 0; i < new_list_length; i++)
+        {
+            if (strcmp(list[i].id, portion3) == 0)
+            {
+                continue;
+            }
+            else
+            {
+                printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                       list[i].id, list[i].phone, list[i].debt, list[i].date);
+            }
+        }
+        printf("\n");
+        break;
+    case '=':
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+        for (int i = 0; i < 85; i++)
+        {
+            printf("*");
+        }
+        printf("\n");
+        for (int i = 0; i < new_list_length; i++)
+        {
+            if (strcmp(list[i].id, portion3) == 0)
+            {
+                printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                       list[i].id, list[i].phone, list[i].debt, list[i].date);
+            }
+        }
+        printf("\n");
+        break;
+    case '<':
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+        for (int i = 0; i < 85; i++)
+        {
+            printf("*");
+        }
+        printf("\n");
+        for (int i = 0; i < new_list_length; i++)
+        {
+            if (strcmp(list[i].id, portion3) < 0)
+            {
+                printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                       list[i].id, list[i].phone, list[i].debt, list[i].date);
+            }
+        }
+        printf("\n");
+        break;
+    case '>':
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+        for (int i = 0; i < 85; i++)
+        {
+            printf("*");
+        }
+        printf("\n");
+        for (int i = 0; i < new_list_length; i++)
+        {
+            if (strcmp(list[i].id, portion3) > 0)
+            {
+                printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                       list[i].id, list[i].phone, list[i].debt, list[i].date);
+            }
+        }
+        printf("\n");
+        break;
+    default:
+        break;
+    }
+}
