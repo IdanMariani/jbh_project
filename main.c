@@ -2,6 +2,7 @@
 #include "read_csv.h"
 #include "validate.h"
 #include "select_operator.h"
+#include "option_menu.h"
 
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
@@ -12,6 +13,8 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
     char *operator_menu[] = {"!=", "=", "<", ">"};
     char select_dilimiter[] = "=<>";
     char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
+
+    bool set_flag = false;
 
     while (1)
     {
@@ -24,6 +27,13 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
         // turn all input to lower case
         switch_to_lower(buffer);
         printf("\n");
+
+        // if user enter "set" on input we go for diffrent section with diffrent validation tests
+        if (strstr(buffer, "set"))
+        {
+            set_flag = true;
+            goto set_option;
+        }
 
         if (strcmp(buffer, "quit") == 0)
         {
@@ -40,11 +50,13 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 
         // we start checking first catgory
         char *portion1 = strtok(buffer, select_dilimiter);
+
         if (portion1 == NULL)
         {
             printf("Error first args\n");
             goto end;
         }
+
         char *portion3 = strtok(NULL, "\0");
         char *remove_char = strtok(portion1, "!");
 
@@ -101,7 +113,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
             }
         }
 
-        // we check last catagory
+        // finally we check last catagory
         if (select_portion2_counter == true && portion3 == NULL)
         {
             printf("Error third args.\n");
@@ -117,6 +129,22 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
         if (!check_all_validation_select(portion3, select_args))
         {
             goto end;
+        }
+
+        // if we pass all 3 catgory valid input of select option we call select option function
+        select_option_menu(list, &new_list_length, buffer, portion2, portion3);
+
+    // set menu will only enter if set_flag is true
+    set_option:
+        if (set_flag == true)
+        {
+            bool error_file_open = false;
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open);
+            if (error_file_open)
+            {
+                return;
+            }
+            set_flag = false;
         }
 
     end:
