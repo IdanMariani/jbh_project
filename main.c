@@ -1,8 +1,10 @@
-#include <stdio.h>
+#include "general.h"
+#include "read_csv.h"
+#include "validate.h"
 
 int main(int argc, char *argv[])
 {
-    
+    Customer *customers;
     FILE *file;
 
     if (argc != 2)
@@ -19,6 +21,10 @@ int main(int argc, char *argv[])
         printf("Error opening file.\n");
         return 1;
     }
+
+    int max_lines = 1;
+    find_max_lines(file, &max_lines);
+    customers = malloc(sizeof(Customer) * max_lines);
 
     fclose(file);
 

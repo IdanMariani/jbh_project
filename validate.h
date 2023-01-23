@@ -4,6 +4,7 @@
 #include "general.h"
 #include "read_csv.h"
 
+bool is_letter(char c);
 
 
 
