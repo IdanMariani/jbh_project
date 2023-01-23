@@ -212,7 +212,30 @@ bool validate_date(char *date)
     return true;
 }
 
-
+bool check_all_validation(Customer *customer)
+{
+    if (!validate_name(customer->first_name))
+    {
+        return false;
+    }
+    if (!validate_lastname(customer->last_name))
+    {
+        return false;
+    }
+    if (!validate_id(customer->id))
+    {
+        return false;
+    }
+    if (!validate_phone_number(customer->phone))
+    {
+        return false;
+    }
+    if (!validate_date(customer->date))
+    {
+        return false;
+    }
+    return true;
+}
 
 
 
