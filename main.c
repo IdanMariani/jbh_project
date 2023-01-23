@@ -26,7 +26,11 @@ int main(int argc, char *argv[])
     find_max_lines(file, &max_lines);
     customers = malloc(sizeof(Customer) * max_lines);
 
-    fclose(file);
+    // 0 mean we have an error reading the csv file /so we return 1 to stop
+    if (read_from_csv_file(file, customers) == 0)
+    {
+        return 1;
+    }
 
     return 0;
 }
