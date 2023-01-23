@@ -143,7 +143,74 @@ bool validate_debt(char *number)
     return true;
 }
 
+bool validate_date(char *date)
+{
+    int length = strlen(date);
+    bool has_backslash = false;
 
+    if (length < 10)
+    {
+        printf("Error reading date - need 10 characters in format dd/mm/yyyy.\n");
+        return false;
+    }
+
+    if (length > 10)
+    {
+        printf("Error reading date - need 10 characters in format dd/mm/yyyy.\n");
+        return false;
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (date[i] == '/')
+        {
+            has_backslash = true;
+        }
+    }
+
+    if (has_backslash == false)
+    {
+        printf("Error reading date - need / in format.\n");
+    }
+
+    int day = 0;
+    int month = 0;
+    int year = 0;
+    char day_c[2] = {0};
+    char month_c[2] = {0};
+    char year_c[4] = {0};
+
+    strncpy(day_c, date, 2);
+    day = atoi(day_c);
+    date = strstr(date, "/");
+    date++;
+    strncpy(month_c, date, 2);
+    month = atoi(month_c);
+    date = strstr(date, "/");
+    date++;
+    strncpy(year_c, date, 4);
+    year = atoi(year_c);
+
+    if (!(day > 0 && day < 32))
+    {
+        printf("Error reading day in date.\n");
+        return false;
+    }
+
+    if (!(month > 0 && month < 13))
+    {
+        printf("Error reading month in date.\n");
+        return false;
+    }
+
+    if (!(year > 1900 && year < 2024))
+    {
+        printf("Error reading year in date - min year is 1900.\n");
+        return false;
+    }
+
+    return true;
+}
 
 
 
