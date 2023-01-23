@@ -85,6 +85,32 @@ bool validate_id(char *id)
     return true;
 }
 
+bool validate_phone_number(char *number)
+{
+    int length = strlen(number);
+
+    if (length != 10)
+    {
+        printf("Error reading phone number - need min of 10 numbers.\n");
+        return false;
+    }
+
+    if (!(number[0] == 48))
+    {
+        printf("Error reading phone number - first number need to start at 0.\n");
+        return false;
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (!is_number(number[i]))
+        {
+            printf("Error reading phone number - need only numbers.\n");
+            return false;
+        }
+    }
+    return true;
+}
 
 
 
