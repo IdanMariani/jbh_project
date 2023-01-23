@@ -20,6 +20,8 @@ typedef struct
 
 void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
+void print_list(Customer *customers, int length);
+
 
 
 

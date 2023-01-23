@@ -48,7 +48,23 @@ void sort_list(Customer *customers, int length)
     }
 }
 
+void print_list(Customer *customers, int length)
+{
+    printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
 
+    for (int i = 0; i < 85; i++)
+    {
+        printf("*");
+    }
+    printf("\n");
+
+    for (int i = 0; i < length; i++)
+    {
+        printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", customers[i].first_name, customers[i].last_name,
+               customers[i].id, customers[i].phone, customers[i].debt, customers[i].date);
+    }
+    printf("\n");
+}
 
 
 
