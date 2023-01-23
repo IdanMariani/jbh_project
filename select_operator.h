@@ -9,6 +9,7 @@ void first_name_operator(Customer *list, int new_list_length, char portion2, cha
 void last_name_operator(Customer *list, int new_list_length, char portion2, char *portion3);
 void id_operator(Customer *list, int new_list_length, char portion2, char *portion3);
 void phone_operator(Customer *list, int new_list_length, char portion2, char *portion3);
+void debt_operator(Customer *list, int new_list_length, char portion2, char *portion3);
 
 
 
