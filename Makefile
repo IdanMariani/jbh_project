@@ -16,8 +16,5 @@ general.o: general.c
 select_operator.o: select_operator.c
 	gcc -Wall -g -c select_operator.c
 
-# option_menu.o: option_menu.c
-# 	gcc -Wall -g -c option_menu.c
-
 clean:
 	@rm -f *.o main
