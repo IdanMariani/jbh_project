@@ -15,5 +15,4 @@ bool validate_date(char *date);
 bool check_all_validation(Customer *customer);
 bool check_all_validation_select(char *string, int ref);
 
-
 #endif

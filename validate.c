@@ -283,8 +283,3 @@ bool check_all_validation_select(char *string, int ref)
 
     return true;
 }
-
-
-
-
-

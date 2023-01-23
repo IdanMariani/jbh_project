@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#define ARR_SIZE(_a) sizeof(_a) / sizeof(_a[0])
+#define MAX_BUFFER 1024
 
 typedef struct
 {
@@ -23,10 +25,5 @@ void sort_list(Customer *customers, int length);
 void print_list(Customer *customers, int length);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
-
-
-
-
-
 
 #endif

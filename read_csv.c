@@ -165,4 +165,3 @@ Customer *count_debt_and_init_array(Customer *customers, int length, int *new_li
 
     return new_arr;
 }
-
