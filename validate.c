@@ -23,3 +23,44 @@ bool is_number(char c)
         return false;
     }
 }
+
+bool validate_name(char *name)
+{
+    int length = strlen(name);
+
+    if (length > 15)
+    {
+        printf("error first name is bigger then 15 chr.\n");
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (!is_letter(name[i]))
+        {
+            printf("Error reading name - need only characters.\n");
+            return false;
+        }
+    }
+    return true;
+}
+
+bool validate_lastname(char *lastname)
+{
+    int length = strlen(lastname);
+
+    if (length > 20)
+    {
+        printf("error first name is bigger then 20 chr.\n");
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (!is_letter(lastname[i]))
+        {
+            printf("Error reading last name - need only characters.\n");
+            return false;
+        }
+    }
+    return true;
+}
+
