@@ -56,3 +56,43 @@ int read_from_csv_file(FILE *file, Customer *customers)
 
     return 1;
 }
+
+bool find_highest_date(char *date1, char *date2)
+{
+    char date1_arr[11];
+    char date2_arr[11];
+    strcpy(date1_arr, date1);
+    strcpy(date2_arr, date2);
+
+    char *d1 = strtok(date1_arr, "/");
+    char *m1 = strtok(NULL, "/");
+    char *y1 = strtok(NULL, "\0");
+
+    char *d2 = strtok(date2_arr, "/");
+    char *m2 = strtok(NULL, "/");
+    char *y2 = strtok(NULL, "\0");
+
+    if (strcmp(y1, y2) < 0)
+    {
+        return true;
+    }
+    if (strcmp(y1, y2) == 0)
+    {
+        if (strcmp(m1, m2) < 0)
+        {
+            return true;
+        }
+    }
+    if (strcmp(y1, y2) == 0)
+    {
+        if (strcmp(m1, m2) == 0)
+        {
+            if (strcmp(d1, d2) < 0)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
