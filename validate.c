@@ -31,6 +31,7 @@ bool validate_name(char *name)
     if (length > 15)
     {
         printf("error first name is bigger then 15 chr.\n");
+        return false;
     }
 
     for (int i = 0; i < length; i++)
@@ -51,6 +52,7 @@ bool validate_lastname(char *lastname)
     if (length > 20)
     {
         printf("error first name is bigger then 20 chr.\n");
+        return false;
     }
 
     for (int i = 0; i < length; i++)
