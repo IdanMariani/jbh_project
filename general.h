@@ -18,6 +18,7 @@ typedef struct
     char date[12];
 } Customer;
 
+void prompt_menu(bool *first_time);
 
 
 

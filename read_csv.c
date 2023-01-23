@@ -109,7 +109,7 @@ Customer *count_debt_and_init_array(Customer *customers, int length, int *new_li
     if (new_arr == NULL)
     {
         printf("Error malloc new_arr\n");
-        return;
+        return NULL;
     }
 
     for (i = 0; i < length; i++)
@@ -160,8 +160,9 @@ Customer *count_debt_and_init_array(Customer *customers, int length, int *new_li
     if (new_arr == NULL)
     {
         printf("new arr is NULL\n");
-        return;
+        return NULL;
     }
 
     return new_arr;
 }
+

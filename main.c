@@ -35,9 +35,17 @@ int main(int argc, char *argv[])
     // create new list array from csv
     int new_list_length = 0;
     list = count_debt_and_init_array(customers, max_lines, &new_list_length);
+    if (list == NULL)
+    {
+        return 1;
+    }
 
     // free old list from csv
     free(customers);
+
+    // show main menu selection only once at start of the program
+    bool prompt_menu_for_first_time = true;
+    prompt_menu(&prompt_menu_for_first_time);
 
     return 0;
 }
