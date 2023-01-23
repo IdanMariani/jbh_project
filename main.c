@@ -3,6 +3,128 @@
 #include "validate.h"
 #include "select_operator.h"
 
+void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
+{
+    char buffer[MAX_BUFFER] = {0};
+    char temp_buffer[MAX_BUFFER] = {0};
+
+    char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
+    char *operator_menu[] = {"!=", "=", "<", ">"};
+    char select_dilimiter[] = "=<>";
+    char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
+
+    while (1)
+    {
+        // we get input buffer from user
+        fgets(buffer, MAX_BUFFER, stdin);
+        strcpy(temp_buffer, buffer);
+        int buffer_length = strlen(buffer);
+        buffer[buffer_length - 1] = '\0';
+
+        // turn all input to lower case
+        switch_to_lower(buffer);
+        printf("\n");
+
+        if (strcmp(buffer, "quit") == 0)
+        {
+            *has_quit = true;
+            free(list);
+            return;
+        }
+
+        if (strcmp(buffer, "print") == 0)
+        {
+            print_list(list, new_list_length);
+            goto end;
+        }
+
+        // we start checking first catgory
+        char *portion1 = strtok(buffer, select_dilimiter);
+        if (portion1 == NULL)
+        {
+            printf("Error first args\n");
+            goto end;
+        }
+        char *portion3 = strtok(NULL, "\0");
+        char *remove_char = strtok(portion1, "!");
+
+        bool select_check_counter = false;
+        int select_args = 0;
+        for (int i = 0; i < ARR_SIZE(select_menu); i++)
+        {
+            if (strcmp(portion1, select_menu[i]) == 0)
+            {
+                select_check_counter = true;
+                select_args = i;
+                bool error_spaces = spaces_count(portion1, select_args);
+                if (error_spaces)
+                {
+                    printf("Error first args\n");
+                    goto end;
+                }
+            }
+        }
+
+        if (select_check_counter == false)
+        {
+            printf("Error first args.\n");
+            goto end;
+        }
+
+        // we start checking second catgory (operator)
+        bool select_portion2_counter = false;
+        char *check_portion2_cut = NULL;
+        char portion2 = '\0';
+        bool compere_valid = false;
+        for (int i = 0; i < ARR_SIZE(operator_menu); i++)
+        {
+            if ((check_portion2_cut = strstr(temp_buffer, operator_menu[i])))
+            {
+                select_portion2_counter = true;
+                check_portion2_cut = strtok(check_portion2_cut, operator_delimiter);
+                for (int i = 0; i < ARR_SIZE(operator_menu); i++)
+                {
+                    if (strcmp(check_portion2_cut, operator_menu[i]) == 0)
+                    {
+                        compere_valid = fill_portion2_operator(i, &portion2);
+                        if (compere_valid)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (compere_valid == true)
+                {
+                    break;
+                }
+            }
+        }
+
+        // we check last catagory
+        if (select_portion2_counter == true && portion3 == NULL)
+        {
+            printf("Error third args.\n");
+            goto end;
+        }
+
+        if (select_portion2_counter == false || compere_valid == false)
+        {
+            printf("Error second args.\n");
+            goto end;
+        }
+
+        if (!check_all_validation_select(portion3, select_args))
+        {
+            goto end;
+        }
+
+    end:
+        // we go to end if error happend during input user or if user enter print
+        printf("\n");
+    }
+}
+
 int main(int argc, char *argv[])
 {
     Customer *customers, *list;
@@ -50,6 +172,9 @@ int main(int argc, char *argv[])
 
     sort_list(list, new_list_length);
     print_list(list, new_list_length);
+
+    bool has_quit = false;
+    all_input_logic(list, new_list_length, &has_quit);
 
     return 0;
 }
