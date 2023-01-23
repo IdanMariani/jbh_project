@@ -1,4 +1,4 @@
-main: main.o read_csv.o validate.o general.o select_operator.o
+main: main.o read_csv.o validate.o general.o select_operator.o 
 	gcc main.o read_csv.o validate.o general.o select_operator.o -o main
 
 main.o: main.c
