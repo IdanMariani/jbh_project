@@ -5,6 +5,7 @@
 #include "read_csv.h"
 
 bool is_letter(char c);
+bool is_number(char c);
 
 
 

@@ -11,3 +11,15 @@ bool is_letter(char c)
         return false;
     }
 }
+
+bool is_number(char c)
+{
+    if (c >= 48 && c <= 57)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
