@@ -237,7 +237,52 @@ bool check_all_validation(Customer *customer)
     return true;
 }
 
+bool check_all_validation_select(char *string, int ref)
+{
+    switch (ref)
+    {
+    case 0:
+        if (!validate_name(string))
+        {
+            return false;
+        }
+        break;
+    case 1:
+        if (!validate_lastname(string))
+        {
+            return false;
+        }
+        break;
+    case 2:
+        if (!validate_id(string))
+        {
+            return false;
+        }
+        break;
+    case 3:
+        if (!validate_phone_number(string))
+        {
+            return false;
+        }
+        break;
+    case 4:
+        if (!validate_debt(string))
+        {
+            return false;
+        }
+        break;
+    case 5:
+        if (!validate_date(string))
+        {
+            return false;
+        }
+        break;
+    default:
+        break;
+    }
 
+    return true;
+}
 
 
 
