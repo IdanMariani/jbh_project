@@ -1,6 +1,7 @@
 #include "general.h"
 #include "read_csv.h"
 #include "validate.h"
+#include "select_operator.h"
 
 int main(int argc, char *argv[])
 {
