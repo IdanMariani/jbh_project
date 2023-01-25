@@ -34,7 +34,7 @@ the following commands for each of the different options
 
 - select:
 select first name=avi
-select last name!=cohen
+select last name!=cohen"
 select id>212366758
 select phone=0548733611
 select debt<-400
