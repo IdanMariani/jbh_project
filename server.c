@@ -10,9 +10,12 @@
 
 #define MAX_LEN 1024
 
+Customer *list;
+char buffer_send[MAX_LEN];
+int new_list_length = 0;
+
 void *conn_handler(void *args)
 {
-    char buffer_send[MAX_LEN];
     int n;
     int new_sock = (int)args;
 
@@ -46,6 +49,41 @@ int main(int argc, char **argv)
         printf("Usage: %s <port>\n", argv[0]);
         return 1;
     }
+
+    Customer *customers;
+    FILE *file;
+
+    file = fopen("customers.TXT", "r");
+
+    if (file == NULL)
+    {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    int max_lines = 1;
+    find_max_lines(file, &max_lines);
+    customers = malloc(sizeof(Customer) * max_lines);
+
+    // 0 mean we have an error reading the csv file /so we return 1 to stop
+    if (read_from_csv_file(file, customers) == 0)
+    {
+        return 1;
+    }
+
+    // create new list array from csv
+
+    list = count_debt_and_init_array(customers, max_lines, &new_list_length);
+    if (list == NULL)
+    {
+        return 1;
+    }
+
+    // free old list from csv
+    free(customers);
+    sort_list(list, new_list_length);
+    print_list(list,new_list_length);
+
 
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
