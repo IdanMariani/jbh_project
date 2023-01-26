@@ -13,6 +13,7 @@
 Customer *list;
 char buffer_send[MAX_LEN];
 int new_list_length = 0;
+bool has_exit = false;
 
 void *conn_handler(void *args)
 {
@@ -41,6 +42,14 @@ void *conn_handler(void *args)
     strcpy(temp_buffer, buffer_send);
     switch_to_lower(new_buffer);
     printf("\n");
+
+    if (strcmp(new_buffer, "quit") == 0)
+    {
+        strcpy(buffer_send,"program has exit");
+        free(list);
+        has_exit = true;
+        goto end;
+    }
 
     // we start checking first catgory
     char *portion1 = strtok(new_buffer, select_dilimiter);
@@ -107,6 +116,7 @@ void *conn_handler(void *args)
         }
     }
 
+    // we checking last catgory
     if (select_portion2_counter == true && portion3 == NULL)
     {
         strcpy(buffer_send, "Error third args");
@@ -220,6 +230,11 @@ int main(int argc, char **argv)
 
         pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
         pthread_join(tid, NULL);
+        if(has_exit == true)
+        {
+            close(sockfd);
+            break;
+        }
     }
 
     return 0;

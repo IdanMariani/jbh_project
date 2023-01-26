@@ -29,8 +29,11 @@ int main(int argc, char **argv)
     /* Send data to the server */
     while (1)
     {
+        bool has_quit = false;
+        int j = 5;
+
         /* Create a sockets */
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < j; i++)
         {
             sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
             if (sockfd[i] < 0)
@@ -38,21 +41,26 @@ int main(int argc, char **argv)
                 perror("Error creating socket");
                 return 1;
             }
-            if (connect(sockfd[i], (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0)
+            if (connect(sockfd[i], (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0)
             {
                 perror("Error connecting");
                 return 1;
             }
         }
 
-        
         puts("Enter a 5 messages:");
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < j; i++)
         {
             fgets(buffer[i], MAX_LEN, stdin);
+            if (strcmp(buffer[i], "quit\n") == 0)
+            {
+                has_quit = true;
+                j = i + 1;
+                break;
+            }
         }
 
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < j; i++)
         {
             n = send(sockfd[i], buffer[i], strlen(buffer[i]) - 1, 0);
             if (n < 0)
@@ -62,7 +70,7 @@ int main(int argc, char **argv)
             }
         }
 
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < j; i++)
         {
             n = recv(sockfd[i], buffer[i], MAX_LEN, 0);
             if (n < 0)
@@ -74,6 +82,11 @@ int main(int argc, char **argv)
             printf("Client %d received: %s\n", i, buffer[i]);
 
             close(sockfd[i]);
+        }
+
+        if (has_quit == true)
+        {
+            break;
         }
     }
 
