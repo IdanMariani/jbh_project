@@ -55,46 +55,32 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "print") == 0)
     {
-        char float_to_char[MAX_LEN];
-        int len = 0;
-        strcpy(buffer_send, "First Name     Last Name     ID     Phone     Debt     Date\n");
-        len = strlen(buffer_send);
-        strcpy(buffer_send + len, "*****************************************************************************************\n");
-        for (int i = 0; i < new_list_length; i++)
-        {
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, list[i].first_name);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "          ");
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, list[i].last_name);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "          ");
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, list[i].id);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "          ");
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, list[i].phone);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "          ");
-            len = strlen(buffer_send);
-            sprintf(float_to_char, "%.2f", list[i].debt);
-            strcpy(buffer_send + len, float_to_char);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "          ");
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, list[i].date);
-            len = strlen(buffer_send);
-            strcpy(buffer_send + len, "\n");
-        }
-
+        sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
         n = send(new_sock, buffer_send, strlen(buffer_send), 0);
         if (n < 0)
         {
             perror("Server error sending data");
             goto exit;
         }
+        sprintf(buffer_send, "%s\n", "*************************************************************************************");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        for (int i = 0; i < new_list_length; i++)
+        {
+            sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                    list[i].id, list[i].phone, list[i].debt, list[i].date);
+            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+            if (n < 0)
+            {
+                perror("Server error sending data");
+                goto exit;
+            }
+        }
+
         goto exit;
     }
 
@@ -247,7 +233,6 @@ int main(int argc, char **argv)
     free(customers);
     sort_list(list, new_list_length);
     print_list(list, new_list_length);
-    
 
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
