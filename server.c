@@ -12,13 +12,16 @@
 
 Customer *list;
 char buffer_send[MAX_LEN];
-int new_list_length = 0;
-bool has_exit = false;
+int new_list_length;
+bool has_quit;
+bool has_print_from_select_menu;
+int n;
+int new_sock;
 
 void *conn_handler(void *args)
 {
-    int n;
-    int new_sock = (int)args;
+    new_sock = (int)args;
+    has_print_from_select_menu = false;
 
     n = recv(new_sock, buffer_send, MAX_LEN, 0);
     if (n < 0)
@@ -41,13 +44,12 @@ void *conn_handler(void *args)
     strcpy(new_buffer, buffer_send);
     strcpy(temp_buffer, buffer_send);
     switch_to_lower(new_buffer);
-    printf("\n");
 
     if (strcmp(new_buffer, "quit") == 0)
     {
         strcpy(buffer_send, "program has exit");
         free(list);
-        has_exit = true;
+        has_quit = true;
         goto end;
     }
 
@@ -59,7 +61,7 @@ void *conn_handler(void *args)
         len = strlen(buffer_send);
         strcpy(buffer_send + len, "*****************************************************************************************\n");
         for (int i = 0; i < new_list_length; i++)
-        {   
+        {
             len = strlen(buffer_send);
             strcpy(buffer_send + len, list[i].first_name);
             len = strlen(buffer_send);
@@ -77,7 +79,7 @@ void *conn_handler(void *args)
             len = strlen(buffer_send);
             strcpy(buffer_send + len, "          ");
             len = strlen(buffer_send);
-            sprintf(float_to_char,"%.2f",list[i].debt);
+            sprintf(float_to_char, "%.2f", list[i].debt);
             strcpy(buffer_send + len, float_to_char);
             len = strlen(buffer_send);
             strcpy(buffer_send + len, "          ");
@@ -180,13 +182,19 @@ void *conn_handler(void *args)
         goto end;
     }
 
+    // if we pass all 3 catgory valid input we reach select option menu
+    select_option_menu_server(list, &new_list_length, new_buffer, portion2, portion3);
 end:
-    n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-    if (n < 0)
+    if (has_print_from_select_menu == false)
     {
-        perror("Server error sending data");
-        goto exit;
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
     }
+
 exit:
     close(new_sock);
     return NULL;
@@ -206,6 +214,8 @@ int main(int argc, char **argv)
 
     Customer *customers;
     FILE *file;
+    has_quit = false;
+    new_list_length = 0;
 
     file = fopen("customers.TXT", "r");
 
@@ -236,6 +246,8 @@ int main(int argc, char **argv)
     // free old list from csv
     free(customers);
     sort_list(list, new_list_length);
+    print_list(list, new_list_length);
+    
 
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -275,7 +287,7 @@ int main(int argc, char **argv)
 
         pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
         pthread_join(tid, NULL);
-        if (has_exit == true)
+        if (has_quit == true)
         {
             close(sockfd);
             break;

@@ -231,3 +231,30 @@ end:
     printf("\n");
     return list;
 }
+
+void select_option_menu_server(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3)
+{
+    char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
+   
+    bool customer_in_list = true;
+
+    for (int i = 0; i < ARR_SIZE(select_menu); i++)
+    {
+        if (strstr(buffer, select_menu[i]))
+        {
+            customer_in_list = found_in_list(list, *new_list_length, portion3, i);
+            if (customer_in_list == true)
+            {
+                print_operator_server(list, *new_list_length, i, portion2, portion3);
+                has_print_from_select_menu = true;
+                break;
+            }
+            else if (customer_in_list == false)
+            {
+                //printf("%s was not found in list\n", portion3);
+                sprintf(buffer_send,"%s was not found in list", portion3);
+                break;
+            }
+        }
+    }
+}

@@ -13,6 +13,7 @@ int main(int argc, char **argv)
     char buffer[5][MAX_LEN];
     int n;
     int i;
+    int r;
 
     if (argc < 2)
     {
@@ -58,6 +59,11 @@ int main(int argc, char **argv)
                 j = i + 1;
                 break;
             }
+            if(strcmp(buffer[i], "\n") == 0)
+            {
+                printf("null query\n");
+                i--;
+            }
         }
 
         for (i = 0; i < j; i++)
@@ -70,20 +76,40 @@ int main(int argc, char **argv)
             }
         }
 
-        for (i = 0; i < j; i++)
+        for (int i = 0; i < j; i++)
         {
-            n = recv(sockfd[i], buffer[i], MAX_LEN, 0);
+            r = 0;
+            do
+            {
+                n = recv(sockfd[i], buffer[i] + r, MAX_LEN - r, 0);
+                r += n;
+            } while (n > 0);
             if (n < 0)
             {
                 perror("Client error receiving data");
-                return 1;
+                break;
             }
-            buffer[i][n] = '\0';
-            //printf("Client %d received: %s\n", i, buffer[i]);
-            printf("%s\n",buffer[i]);
+            buffer[i][r] = '\0';
+            printf("Client %d received:\n", i + 1);
+            printf("%s\n", buffer[i]);
 
             close(sockfd[i]);
         }
+
+        // for (i = 0; i < j; i++)
+        // {
+        //     n = recv(sockfd[i], buffer[i], MAX_LEN, 0);
+        //     if (n < 0)
+        //     {
+        //         perror("Client error receiving data");
+        //         return 1;
+        //     }
+        //     buffer[i][n] = '\0';
+        //     printf("Client %d received:\n", i + 1);
+        //     printf("%s\n", buffer[i]);
+
+        //     close(sockfd[i]);
+        // }
 
         if (has_quit == true)
         {
