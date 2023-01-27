@@ -45,10 +45,55 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "quit") == 0)
     {
-        strcpy(buffer_send,"program has exit");
+        strcpy(buffer_send, "program has exit");
         free(list);
         has_exit = true;
         goto end;
+    }
+
+    if (strcmp(new_buffer, "print") == 0)
+    {
+        char float_to_char[MAX_LEN];
+        int len = 0;
+        strcpy(buffer_send, "First Name     Last Name     ID     Phone     Debt     Date\n");
+        len = strlen(buffer_send);
+        strcpy(buffer_send + len, "*****************************************************************************************\n");
+        for (int i = 0; i < new_list_length; i++)
+        {   
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, list[i].first_name);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "          ");
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, list[i].last_name);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "          ");
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, list[i].id);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "          ");
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, list[i].phone);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "          ");
+            len = strlen(buffer_send);
+            sprintf(float_to_char,"%.2f",list[i].debt);
+            strcpy(buffer_send + len, float_to_char);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "          ");
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, list[i].date);
+            len = strlen(buffer_send);
+            strcpy(buffer_send + len, "\n");
+        }
+
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        goto exit;
     }
 
     // we start checking first catgory
@@ -230,7 +275,7 @@ int main(int argc, char **argv)
 
         pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
         pthread_join(tid, NULL);
-        if(has_exit == true)
+        if (has_exit == true)
         {
             close(sockfd);
             break;

@@ -79,7 +79,8 @@ int main(int argc, char **argv)
                 return 1;
             }
             buffer[i][n] = '\0';
-            printf("Client %d received: %s\n", i, buffer[i]);
+            //printf("Client %d received: %s\n", i, buffer[i]);
+            printf("%s\n",buffer[i]);
 
             close(sockfd[i]);
         }
