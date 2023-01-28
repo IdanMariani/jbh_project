@@ -96,21 +96,6 @@ int main(int argc, char **argv)
             close(sockfd[i]);
         }
 
-        // for (i = 0; i < j; i++)
-        // {
-        //     n = recv(sockfd[i], buffer[i], MAX_LEN, 0);
-        //     if (n < 0)
-        //     {
-        //         perror("Client error receiving data");
-        //         return 1;
-        //     }
-        //     buffer[i][n] = '\0';
-        //     printf("Client %d received:\n", i + 1);
-        //     printf("%s\n", buffer[i]);
-
-        //     close(sockfd[i]);
-        // }
-
         if (has_quit == true)
         {
             break;

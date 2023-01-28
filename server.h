@@ -6,6 +6,5 @@
 char buffer_send[MAX_LEN];
 int n;
 int new_sock;
-bool has_print_from_select_menu;
 
 #endif

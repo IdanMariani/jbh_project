@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include "server.h"
 
 #define ARR_SIZE(_a) sizeof(_a) / sizeof(_a[0])
 #define MAX_BUFFER 1024
@@ -25,5 +26,7 @@ void sort_list(Customer *customers, int length);
 void print_list(Customer *customers, int length);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
+void print_list_server(Customer *list, int length);
+
 
 #endif

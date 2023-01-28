@@ -13,14 +13,12 @@
 Customer *list;
 char buffer_send[MAX_LEN];
 int new_list_length;
-bool has_quit;
 int n;
 int new_sock;
 
 void *conn_handler(void *args)
 {
     new_sock = (int)args;
-    has_print_from_select_menu = false;
 
     n = recv(new_sock, buffer_send, MAX_LEN, 0);
     if (n < 0)
@@ -44,6 +42,13 @@ void *conn_handler(void *args)
     strcpy(temp_buffer, buffer_send);
     switch_to_lower(new_buffer);
 
+    // if user enter "set" on input we go for diffrent section with diffrent validation tests
+    if (strstr(new_buffer, "set"))
+    {
+        set_flag = true;
+        goto set_option;
+    }
+
     if (strcmp(new_buffer, "quit") == 0)
     {
         strcpy(buffer_send, "program has exit");
@@ -54,7 +59,6 @@ void *conn_handler(void *args)
             goto exit;
         }
         free(list);
-        has_quit = true;
         goto exit;
     }
 
@@ -211,6 +215,19 @@ void *conn_handler(void *args)
 
     // if we pass all 3 catgory valid input we reach select option menu
     select_option_menu_server(list, &new_list_length, new_buffer, portion2, portion3);
+
+set_option:
+    if (set_flag == true)
+    {
+        bool error_file_open = false;
+        list = set_option_menu_server(list, &new_list_length, new_buffer, &error_file_open);
+        if (error_file_open)
+        {
+            goto exit;
+        }
+        set_flag = false;
+    }
+
 exit:
     close(new_sock);
     return NULL;
@@ -230,9 +247,8 @@ int main(int argc, char **argv)
 
     Customer *customers;
     FILE *file;
-    has_quit = false;
-    new_list_length = 0;
 
+    new_list_length = 0;
     file = fopen("customers.TXT", "r");
 
     if (file == NULL)
@@ -302,11 +318,6 @@ int main(int argc, char **argv)
 
         pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
         pthread_join(tid, NULL);
-        if (has_quit == true)
-        {
-            close(sockfd);
-            break;
-        }
     }
 
     return 0;
