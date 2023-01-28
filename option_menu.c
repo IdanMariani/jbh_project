@@ -246,7 +246,6 @@ void select_option_menu_server(Customer *list, int *new_list_length, char *buffe
             if (customer_in_list == true)
             {
                 print_operator_server(list, *new_list_length, i, portion2, portion3);
-                has_print_from_select_menu = true;
                 break;
             }
             else if (customer_in_list == false)

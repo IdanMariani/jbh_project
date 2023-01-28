@@ -14,7 +14,6 @@ Customer *list;
 char buffer_send[MAX_LEN];
 int new_list_length;
 bool has_quit;
-bool has_print_from_select_menu;
 int n;
 int new_sock;
 
@@ -48,9 +47,15 @@ void *conn_handler(void *args)
     if (strcmp(new_buffer, "quit") == 0)
     {
         strcpy(buffer_send, "program has exit");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
         free(list);
         has_quit = true;
-        goto end;
+        goto exit;
     }
 
     if (strcmp(new_buffer, "print") == 0)
@@ -90,7 +95,13 @@ void *conn_handler(void *args)
     if (portion1 == NULL)
     {
         strcpy(buffer_send, "Error first args");
-        goto end;
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        goto exit;
     }
 
     char *portion3 = strtok(NULL, "\0");
@@ -108,7 +119,13 @@ void *conn_handler(void *args)
             if (error_spaces)
             {
                 strcpy(buffer_send, "Error first args");
-                goto end;
+                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+                if (n < 0)
+                {
+                    perror("Server error sending data");
+                    goto exit;
+                }
+                goto exit;
             }
         }
     }
@@ -116,7 +133,13 @@ void *conn_handler(void *args)
     if (select_check_counter == false)
     {
         strcpy(buffer_send, "Error first args");
-        goto end;
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        goto exit;
     }
 
     // we start checking second catgory (operator)
@@ -153,34 +176,41 @@ void *conn_handler(void *args)
     if (select_portion2_counter == true && portion3 == NULL)
     {
         strcpy(buffer_send, "Error third args");
-        goto end;
-    }
-
-    if (select_portion2_counter == false || compere_valid == false)
-    {
-        strcpy(buffer_send, "Error second args");
-        goto end;
-    }
-
-    if (!check_all_validation_select(portion3, select_args))
-    {
-        strcpy(buffer_send, "Error at validation");
-        goto end;
-    }
-
-    // if we pass all 3 catgory valid input we reach select option menu
-    select_option_menu_server(list, &new_list_length, new_buffer, portion2, portion3);
-end:
-    if (has_print_from_select_menu == false)
-    {
         n = send(new_sock, buffer_send, strlen(buffer_send), 0);
         if (n < 0)
         {
             perror("Server error sending data");
             goto exit;
         }
+        goto exit;
     }
 
+    if (select_portion2_counter == false || compere_valid == false)
+    {
+        strcpy(buffer_send, "Error second args");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        goto exit;
+    }
+
+    if (!check_all_validation_select(portion3, select_args))
+    {
+        strcpy(buffer_send, "Error at validation");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto exit;
+        }
+        goto exit;
+    }
+
+    // if we pass all 3 catgory valid input we reach select option menu
+    select_option_menu_server(list, &new_list_length, new_buffer, portion2, portion3);
 exit:
     close(new_sock);
     return NULL;
