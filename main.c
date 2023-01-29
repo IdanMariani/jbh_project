@@ -4,6 +4,7 @@
 #include "select_operator.h"
 #include "option_menu.h"
 
+
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
     char buffer[MAX_BUFFER] = {0};

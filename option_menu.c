@@ -440,4 +440,3 @@ end:
     // we go to end if error happend during input user
     return list;
 }
-//set first name=idan,last name=mariani,id=200757060,phone=0559221335,debt=-250,date=09/10/2000

@@ -33,6 +33,31 @@ int main(int argc, char **argv)
         bool has_quit = false;
         int j = 5;
 
+        puts("Enter up to 5 messages:");
+        for (i = 0; i < j; i++)
+        {
+            fgets(buffer[i], MAX_LEN, stdin);
+
+            if (strcmp(buffer[i], "quit\n") == 0)
+            {
+                has_quit = true;
+                j = i;
+                break;
+            }
+
+            if (strcmp(buffer[i], "\n") == 0)
+            {
+                printf("null query\n");
+                i--;
+            }
+
+            if (strcmp(buffer[i], "send\n") == 0)
+            {
+                j = i;
+                break;
+            }
+        }
+
         /* Create a sockets */
         for (i = 0; i < j; i++)
         {
@@ -49,20 +74,22 @@ int main(int argc, char **argv)
             }
         }
 
-        puts("Enter a 5 messages:");
-        for (i = 0; i < j; i++)
+        if (i == 5)
         {
-            fgets(buffer[i], MAX_LEN, stdin);
-            if (strcmp(buffer[i], "quit\n") == 0)
+            while (true)
             {
-                has_quit = true;
-                j = i + 1;
-                break;
-            }
-            if(strcmp(buffer[i], "\n") == 0)
-            {
-                printf("null query\n");
-                i--;
+                printf("plz enter send or quit\n");
+                fgets(buffer[i], MAX_LEN, stdin);
+                if (strcmp(buffer[i], "send\n") == 0)
+                {
+                    break;
+                }
+                if (strcmp(buffer[i], "quit\n") == 0)
+                {
+                    has_quit = true;
+                    j = i;
+                    break;
+                }
             }
         }
 
