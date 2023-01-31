@@ -211,9 +211,10 @@ int main(int argc, char **argv)
     struct sockaddr_in servaddr, cliaddr;
     socklen_t len = sizeof(cliaddr);
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Usage: %s <port>\n", argv[0]);
+        printf("<enter this command to run server.>\n");
+        printf("./server 1212 customers.txt\n");
         return 1;
     }
 
@@ -221,7 +222,7 @@ int main(int argc, char **argv)
     FILE *file;
 
     new_list_length = 0;
-    file = fopen("customers.TXT", "r");
+    file = fopen(argv[2], "r");
 
     if (file == NULL)
     {

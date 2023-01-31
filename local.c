@@ -160,14 +160,14 @@ int main(int argc, char *argv[])
     FILE *file;
     enum Compiler comp = COMP_LOCAL;
 
-    if (argc != 2)
+    if (argc != 3)
     {
         printf("Argument number error.\n");
         printf("Enter ./main customers.txt to run program\n");
         return 1;
     }
 
-    file = fopen(argv[1], "r");
+    file = fopen(argv[2], "r");
 
     if (file == NULL)
     {

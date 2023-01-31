@@ -4,27 +4,26 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define MAX_LEN 1024
-
 int main(int argc, char **argv)
 {
     int sockfd[5];
     struct sockaddr_in servaddr;
-    char buffer[5][MAX_LEN];
+    char buffer[5][MAX_BUFFER];
     int n;
     int i;
     int r;
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Usage: %s <port>\n", argv[0]);
+        printf("<enter this command to run client.>\n");
+        printf("./client 1212 127.0.0.1\n");
         return 1;
     }
 
     /* Connect to the server */
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr.sin_addr.s_addr = inet_addr(argv[2]);
     servaddr.sin_port = htons(atoi(argv[1]));
 
     /* Send data to the server */
@@ -36,7 +35,7 @@ int main(int argc, char **argv)
         puts("Enter up to 5 messages:");
         for (i = 0; i < j; i++)
         {
-            fgets(buffer[i], MAX_LEN, stdin);
+            fgets(buffer[i], MAX_BUFFER, stdin);
 
             if (strcmp(buffer[i], "quit\n") == 0)
             {
@@ -79,7 +78,7 @@ int main(int argc, char **argv)
             while (true)
             {
                 printf("plz enter send or quit\n");
-                fgets(buffer[i], MAX_LEN, stdin);
+                fgets(buffer[i], MAX_BUFFER, stdin);
                 if (strcmp(buffer[i], "send\n") == 0)
                 {
                     break;

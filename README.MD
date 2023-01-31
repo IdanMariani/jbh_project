@@ -25,8 +25,8 @@ Step #2: choose from 3 options:
 # Local
 run .local customers.txt
 # Server And Client
-first run ./server 12345
-second run .client 12345
+first run ./server 1212 customers.txt
+second run .client 1212 127.0.0.1
 
 Optional Step #:delete .o files
 run command:
