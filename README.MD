@@ -21,14 +21,18 @@ each category can use 4 diffrent operators.
 # How To Use
 Step #1: run command:
 make
-Step #2: run command:
-./main customers.txt
+Step #2: choose from 3 options:
+# Local
+run .local customers.txt
+# Server And Client
+first run ./server 12345
+second run .client 12345
 
-to delete .o files
+Optional Step #:delete .o files
 run command:
 make clean
 
-# Examples
+# Examples for local
 once the program has started write in terminal
 the following commands for each of the different options
 
@@ -48,6 +52,9 @@ print
 
 - quit:
 quit
+
+# Examples for Server and Client
+in this mode you will be able to send up to 5 messges
 
 # Author Info
 idan mariani
