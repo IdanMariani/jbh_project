@@ -3,6 +3,8 @@
 #include "validate.h"
 #include "select_operator.h"
 #include "option_menu.h"
+#include "user_input.h"
+#include "server.h"
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -18,6 +20,7 @@ void *conn_handler(void *args)
 {
     new_sock = (int)args;
     enum Compiler comp = COMP_SERVER;
+    
     n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
     if (n < 0)
     {
@@ -27,36 +30,18 @@ void *conn_handler(void *args)
     buffer_send[n] = '\0';
 
     char new_buffer[MAX_BUFFER] = {0};
-    char temp_buffer[MAX_BUFFER] = {0};
-
-    char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
-    char *operator_menu[] = {"!=", "=", "<", ">"};
-    char select_dilimiter[] = "=<>";
-    char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
-
+    char portion2;
+    char portion3[MAX_BUFFER];
     bool set_flag = false;
+    bool error_input = false;
 
     strcpy(new_buffer, buffer_send);
-    strcpy(temp_buffer, buffer_send);
     switch_to_lower(new_buffer);
 
-    // if user enter "set" on input we go for diffrent section with diffrent validation tests
     if (strstr(new_buffer, "set"))
     {
         set_flag = true;
         goto set_option;
-    }
-
-    if (strcmp(new_buffer, "quit") == 0)
-    {
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
-        free(list);
-        goto exit;
     }
 
     if (strcmp(new_buffer, "print") == 0)
@@ -65,123 +50,9 @@ void *conn_handler(void *args)
         goto exit;
     }
 
-    // we start checking first catgory
-    char *portion1 = strtok(new_buffer, select_dilimiter);
-
-    if (portion1 == NULL)
+    error_handle(new_buffer, &portion2, portion3, &error_input,comp);
+    if (error_input == true)
     {
-        strcpy(buffer_send, "Error first args");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
-        goto exit;
-    }
-
-    char *portion3 = strtok(NULL, "\0");
-    char *remove_char = strtok(portion1, "!");
-
-    bool select_check_counter = false;
-    int select_args = 0;
-    for (int i = 0; i < ARR_SIZE(select_menu); i++)
-    {
-        if (strcmp(portion1, select_menu[i]) == 0)
-        {
-            select_check_counter = true;
-            select_args = i;
-            bool error_spaces = spaces_count(portion1, select_args);
-            if (error_spaces)
-            {
-                strcpy(buffer_send, "Error first args");
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    goto exit;
-                }
-                goto exit;
-            }
-        }
-    }
-
-    if (select_check_counter == false)
-    {
-        strcpy(buffer_send, "Error first args");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
-        goto exit;
-    }
-
-    // we start checking second catgory (operator)
-    bool select_portion2_counter = false;
-    char *check_portion2_cut = NULL;
-    char portion2 = '\0';
-    bool compere_valid = false;
-    for (int i = 0; i < ARR_SIZE(operator_menu); i++)
-    {
-        if ((check_portion2_cut = strstr(temp_buffer, operator_menu[i])))
-        {
-            select_portion2_counter = true;
-            check_portion2_cut = strtok(check_portion2_cut, operator_delimiter);
-            for (int i = 0; i < ARR_SIZE(operator_menu); i++)
-            {
-                if (strcmp(check_portion2_cut, operator_menu[i]) == 0)
-                {
-                    compere_valid = fill_portion2_operator(i, &portion2);
-                    if (compere_valid)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            if (compere_valid == true)
-            {
-                break;
-            }
-        }
-    }
-
-    // we checking last catgory
-    if (select_portion2_counter == true && portion3 == NULL)
-    {
-        strcpy(buffer_send, "Error third args");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
-        goto exit;
-    }
-
-    if (select_portion2_counter == false || compere_valid == false)
-    {
-        strcpy(buffer_send, "Error second args");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
-        goto exit;
-    }
-
-    if (!check_all_validation_select(portion3, select_args))
-    {
-        strcpy(buffer_send, "Error at validation");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto exit;
-        }
         goto exit;
     }
 
@@ -192,7 +63,7 @@ set_option:
     if (set_flag == true)
     {
         bool error_file_open = false;
-        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open,comp);
+        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open, comp);
         if (error_file_open)
         {
             goto exit;
@@ -251,7 +122,7 @@ int main(int argc, char **argv)
     // free old list from csv
     free(customers);
     sort_list(list, new_list_length);
-      
+
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)

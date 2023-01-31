@@ -1,11 +1,11 @@
 options:
 	@echo Options: local, server, client
 
-local: local.o read_csv.o validate.o general.o select_operator.o option_menu.o
-	gcc local.o read_csv.o validate.o general.o select_operator.o option_menu.o -o local
+local: local.o read_csv.o validate.o general.o select_operator.o option_menu.o user_input.o
+	gcc local.o read_csv.o validate.o general.o select_operator.o option_menu.o user_input.o -o local
 
-server: server.o read_csv.o validate.o general.o select_operator.o option_menu.o
-	gcc server.o read_csv.o validate.o general.o select_operator.o option_menu.o -lpthread -o server
+server: server.o read_csv.o validate.o general.o select_operator.o option_menu.o user_input.o
+	gcc server.o read_csv.o validate.o general.o select_operator.o option_menu.o user_input.o -lpthread -o server
 
 client: client.o 
 	gcc client.o -lpthread -o client
@@ -33,6 +33,9 @@ select_operator.o: select_operator.c
 
 option_menu.o: option_menu.c
 	gcc -Wall -g -c option_menu.c
+
+user_input.o: user_input.c
+	gcc -Wall -g -c user_input.c
 
 clean:
 	@rm -f *.o local server client
