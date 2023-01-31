@@ -32,7 +32,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
     switch (index)
     {
     case 0:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             first_name_operator(list, new_list_length, portion2, portion3);
         }
@@ -42,7 +42,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         break;
     case 1:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             last_name_operator(list, new_list_length, portion2, portion3);
         }
@@ -52,7 +52,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         break;
     case 2:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             id_operator(list, new_list_length, portion2, portion3);
         }
@@ -62,7 +62,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         break;
     case 3:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             phone_operator(list, new_list_length, portion2, portion3);
         }
@@ -72,7 +72,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         break;
     case 4:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             debt_operator(list, new_list_length, portion2, portion3);
         }
@@ -82,7 +82,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         break;
     case 5:
-        if (comp == COMP_MAIN)
+        if (comp == COMP_LOCAL)
         {
             date_operator(list, new_list_length, portion2, portion3);
         }

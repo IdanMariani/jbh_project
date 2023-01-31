@@ -23,7 +23,7 @@ typedef struct
 
 enum Compiler
 {
-    COMP_MAIN,
+    COMP_LOCAL,
     COMP_SERVER,
 };
 

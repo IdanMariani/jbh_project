@@ -8,10 +8,8 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-#define MAX_LEN 1024
-
 Customer *list;
-char buffer_send[MAX_LEN];
+char buffer_send[MAX_BUFFER];
 int new_list_length;
 int n;
 int new_sock;
@@ -20,7 +18,7 @@ void *conn_handler(void *args)
 {
     new_sock = (int)args;
     enum Compiler comp = COMP_SERVER;
-    n = recv(new_sock, buffer_send, MAX_LEN, 0);
+    n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
     if (n < 0)
     {
         perror("Server error receiving data");
@@ -28,8 +26,8 @@ void *conn_handler(void *args)
     }
     buffer_send[n] = '\0';
 
-    char new_buffer[MAX_LEN] = {0};
-    char temp_buffer[MAX_LEN] = {0};
+    char new_buffer[MAX_BUFFER] = {0};
+    char temp_buffer[MAX_BUFFER] = {0};
 
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
     char *operator_menu[] = {"!=", "=", "<", ">"};

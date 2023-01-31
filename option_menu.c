@@ -71,7 +71,7 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
             }
             else if (customer_in_list == false)
             {
-                if (comp == COMP_MAIN)
+                if (comp == COMP_LOCAL)
                 {
                     printf("%s was not found in list\n", portion3);
                 }
@@ -113,7 +113,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             strcpy(print_clean, set_menu[i]);
             int length = strlen(print_clean);
             print_clean[length - 1] = '\0';
-            if (comp == COMP_MAIN)
+            if (comp == COMP_LOCAL)
             {
                 printf("error at %s", print_clean);
             }
@@ -173,7 +173,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 
         if (null_flag == true)
         {
-            if (comp == COMP_MAIN)
+            if (comp == COMP_LOCAL)
             {
                 printf("empty args in set option");
             }
@@ -194,7 +194,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         char *check_overflow = strtok(NULL, set_dilimiter);
         if (check_overflow != NULL)
         {
-            if (comp == COMP_MAIN)
+            if (comp == COMP_LOCAL)
             {
                 printf("Error more then 6 args in set option");
             }
@@ -214,7 +214,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         FILE *file = fopen("customers.txt", "a");
         if (file == NULL)
         {
-            if (comp == COMP_MAIN)
+            if (comp == COMP_LOCAL)
             {
                 printf("Error opening file.\n");
             }
@@ -273,7 +273,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                 }
                 else
                 {
-                    if (comp == COMP_MAIN)
+                    if (comp == COMP_LOCAL)
                     {
                         printf("customer with same id but has diffrent name");
                     }

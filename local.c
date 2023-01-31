@@ -15,8 +15,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
     char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
 
     bool set_flag = false;
-    enum Compiler comp;
-    comp = COMP_MAIN;
+    enum Compiler comp = COMP_LOCAL;
 
     while (1)
     {
@@ -159,8 +158,7 @@ int main(int argc, char *argv[])
 {
     Customer *customers, *list;
     FILE *file;
-    enum Compiler comp;
-    comp = COMP_MAIN;
+    enum Compiler comp = COMP_LOCAL;
 
     if (argc != 2)
     {

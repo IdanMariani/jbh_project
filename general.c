@@ -50,7 +50,7 @@ void sort_list(Customer *customers, int length)
 
 void print_list(Customer *list, int new_list_length, enum Compiler comp)
 {
-    if (comp == COMP_MAIN)
+    if (comp == COMP_LOCAL)
     {
         printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
 
