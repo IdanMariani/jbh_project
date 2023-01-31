@@ -4,24 +4,126 @@
 #include "select_operator.h"
 #include "option_menu.h"
 
+void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input)
+{
+    char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
+    char select_dilimiter[] = "=<>";
+    char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
+    char *operator_menu[] = {"!=", "=", "<", ">"};
+
+    char new_buffer[MAX_BUFFER] = {0};
+    char temp_buffer[MAX_BUFFER] = {0};
+
+    strcpy(new_buffer, buffer);
+    strcpy(temp_buffer, new_buffer);
+
+    // we start checking first catgory
+    char *portion1 = strtok(new_buffer, select_dilimiter);
+
+    if (portion1 == NULL)
+    {
+        printf("Error first args\n");
+        *error_input = true;
+        return;
+    }
+
+    char *portion3_value = strtok(NULL, "\0");
+    char *remove_char = strtok(portion1, "!");
+
+    bool select_check_counter = false;
+    int select_args = 0;
+    for (int i = 0; i < ARR_SIZE(select_menu); i++)
+    {
+        if (strcmp(portion1, select_menu[i]) == 0)
+        {
+            select_check_counter = true;
+            select_args = i;
+            bool error_spaces = spaces_count(portion1, select_args);
+            if (error_spaces)
+            {
+                printf("Error first args\n");
+                *error_input = true;
+                return;
+            }
+        }
+    }
+
+    if (select_check_counter == false)
+    {
+        printf("Error first args.\n");
+        *error_input = true;
+        return;
+    }
+
+    // we start checking second catgory (operator)
+    bool select_portion2_counter = false;
+    char *check_portion2_cut = NULL;
+    *portion2 = '\0';
+    bool compere_valid = false;
+    for (int i = 0; i < ARR_SIZE(operator_menu); i++)
+    {
+        if ((check_portion2_cut = strstr(temp_buffer, operator_menu[i])))
+        {
+            select_portion2_counter = true;
+            check_portion2_cut = strtok(check_portion2_cut, operator_delimiter);
+            for (int i = 0; i < ARR_SIZE(operator_menu); i++)
+            {
+                if (strcmp(check_portion2_cut, operator_menu[i]) == 0)
+                {
+                    compere_valid = fill_portion2_operator(i, portion2);
+                    if (compere_valid)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (compere_valid == true)
+            {
+                break;
+            }
+        }
+    }
+
+    // finally we check last catagory
+    if (select_portion2_counter == true && portion3_value == NULL)
+    {
+        printf("Error third args.\n");
+        *error_input = true;
+        return;
+    }
+
+    if (select_portion2_counter == false || compere_valid == false)
+    {
+        printf("Error second args.\n");
+        *error_input = true;
+        return;
+    }
+
+    if (!check_all_validation_select(portion3_value, select_args))
+    {
+        *error_input = true;
+        return;
+    }
+    
+    strcpy(portion3,portion3_value);
+
+}
+
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
     char buffer[MAX_BUFFER] = {0};
-    char temp_buffer[MAX_BUFFER] = {0};
-
-    char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
-    char *operator_menu[] = {"!=", "=", "<", ">"};
-    char select_dilimiter[] = "=<>";
-    char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
-
     bool set_flag = false;
     enum Compiler comp = COMP_LOCAL;
+
+    char portion2;
+    char portion3[MAX_BUFFER];
+    bool error_input = false;
 
     while (1)
     {
         // we get input buffer from user
         fgets(buffer, MAX_BUFFER, stdin);
-        strcpy(temp_buffer, buffer);
         int buffer_length = strlen(buffer);
         buffer[buffer_length - 1] = '\0';
 
@@ -49,85 +151,8 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
             goto end;
         }
 
-        // we start checking first catgory
-        char *portion1 = strtok(buffer, select_dilimiter);
-
-        if (portion1 == NULL)
-        {
-            printf("Error first args\n");
-            goto end;
-        }
-
-        char *portion3 = strtok(NULL, "\0");
-        char *remove_char = strtok(portion1, "!");
-
-        bool select_check_counter = false;
-        int select_args = 0;
-        for (int i = 0; i < ARR_SIZE(select_menu); i++)
-        {
-            if (strcmp(portion1, select_menu[i]) == 0)
-            {
-                select_check_counter = true;
-                select_args = i;
-                bool error_spaces = spaces_count(portion1, select_args);
-                if (error_spaces)
-                {
-                    printf("Error first args\n");
-                    goto end;
-                }
-            }
-        }
-
-        if (select_check_counter == false)
-        {
-            printf("Error first args.\n");
-            goto end;
-        }
-
-        // we start checking second catgory (operator)
-        bool select_portion2_counter = false;
-        char *check_portion2_cut = NULL;
-        char portion2 = '\0';
-        bool compere_valid = false;
-        for (int i = 0; i < ARR_SIZE(operator_menu); i++)
-        {
-            if ((check_portion2_cut = strstr(temp_buffer, operator_menu[i])))
-            {
-                select_portion2_counter = true;
-                check_portion2_cut = strtok(check_portion2_cut, operator_delimiter);
-                for (int i = 0; i < ARR_SIZE(operator_menu); i++)
-                {
-                    if (strcmp(check_portion2_cut, operator_menu[i]) == 0)
-                    {
-                        compere_valid = fill_portion2_operator(i, &portion2);
-                        if (compere_valid)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                if (compere_valid == true)
-                {
-                    break;
-                }
-            }
-        }
-
-        // finally we check last catagory
-        if (select_portion2_counter == true && portion3 == NULL)
-        {
-            printf("Error third args.\n");
-            goto end;
-        }
-
-        if (select_portion2_counter == false || compere_valid == false)
-        {
-            printf("Error second args.\n");
-            goto end;
-        }
-
-        if (!check_all_validation_select(portion3, select_args))
+        error_handle(buffer, &portion2, portion3, &error_input);
+        if(error_input == true)
         {
             goto end;
         }
@@ -140,7 +165,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
         if (set_flag == true)
         {
             bool error_file_open = false;
-            list = set_option_menu(list, &new_list_length, buffer, &error_file_open,comp);
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, comp);
             if (error_file_open)
             {
                 return;
@@ -160,14 +185,14 @@ int main(int argc, char *argv[])
     FILE *file;
     enum Compiler comp = COMP_LOCAL;
 
-    if (argc != 3)
+    if (argc != 2)
     {
         printf("Argument number error.\n");
         printf("Enter ./main customers.txt to run program\n");
         return 1;
     }
 
-    file = fopen(argv[2], "r");
+    file = fopen(argv[1], "r");
 
     if (file == NULL)
     {
