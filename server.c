@@ -20,7 +20,7 @@ void *conn_handler(void *args)
 {
     new_sock = (int)args;
     enum Compiler comp = COMP_SERVER;
-    
+
     n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
     if (n < 0)
     {
@@ -50,13 +50,12 @@ void *conn_handler(void *args)
         goto exit;
     }
 
-    error_handle(new_buffer, &portion2, portion3, &error_input,comp);
+    error_handle(new_buffer, &portion2, portion3, &error_input, comp);
     if (error_input == true)
     {
         goto exit;
     }
 
-    // if we pass all 3 catgory valid input we reach select option menu
     select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, comp);
 
 set_option:
@@ -72,6 +71,7 @@ set_option:
     }
 
 exit:
+    error_input = false;
     close(new_sock);
     return NULL;
 }

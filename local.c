@@ -5,6 +5,71 @@
 #include "option_menu.h"
 #include "user_input.h"
 
+void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
+{
+    enum Compiler comp = COMP_LOCAL;
+    char buffer[MAX_BUFFER] = {0};
+
+    char portion2 = '\0';
+    char portion3[MAX_BUFFER] = {0};
+
+    bool error_input = false;
+    bool set_flag = false;
+
+    while (1)
+    {
+
+        fgets(buffer, MAX_BUFFER, stdin);
+        int buffer_length = strlen(buffer);
+        buffer[buffer_length - 1] = '\0';
+        switch_to_lower(buffer);
+        printf("\n");
+
+        if (strstr(buffer, "set"))
+        {
+            set_flag = true;
+            goto set_option;
+        }
+
+        if (strcmp(buffer, "quit") == 0)
+        {
+            *has_quit = true;
+            free(list);
+            return;
+        }
+
+        if (strcmp(buffer, "print") == 0)
+        {
+            print_list(list, new_list_length, comp);
+            goto end;
+        }
+
+        error_handle(buffer, &portion2, portion3, &error_input, comp);
+        if (error_input == true)
+        {
+            goto end;
+        }
+
+        select_option_menu(list, &new_list_length, buffer, portion2, portion3, comp);
+
+    set_option:
+        if (set_flag == true)
+        {
+            bool error_file_open = false;
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, comp);
+            if (error_file_open)
+            {
+                return;
+            }
+            set_flag = false;
+        }
+
+    end:
+        error_input = false;
+        puts("");
+    }
+}
+
 int main(int argc, char *argv[])
 {
     Customer *customers, *list;

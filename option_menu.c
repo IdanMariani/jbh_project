@@ -301,6 +301,22 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             list = realloc(list, sizeof(Customer) * *new_list_length);
             list[*new_list_length - 1] = *customer;
             sort_list(list, *new_list_length);
+
+            if (comp == COMP_LOCAL)
+            {
+                printf("new customer add successfully.\n");
+            }
+            else if (comp == COMP_SERVER)
+            {
+                strcpy(buffer_send, "new customer add successfully.\n");
+                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+                if (n < 0)
+                {
+                    perror("Server error sending data");
+                    free(customer);
+                    goto end;
+                }
+            }
         }
 
         // we write all details to file
