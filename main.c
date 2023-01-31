@@ -4,7 +4,6 @@
 #include "select_operator.h"
 #include "option_menu.h"
 
-
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
     char buffer[MAX_BUFFER] = {0};
@@ -16,6 +15,8 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
     char operator_delimiter[] = "-abcdefghijklmnopqrstuvwxyz0123456789";
 
     bool set_flag = false;
+    enum Compiler comp;
+    comp = COMP_MAIN;
 
     while (1)
     {
@@ -45,7 +46,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 
         if (strcmp(buffer, "print") == 0)
         {
-            print_list(list, new_list_length);
+            print_list(list, new_list_length, comp);
             goto end;
         }
 
@@ -133,14 +134,14 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
         }
 
         // if we pass all 3 catgory valid input of select option we call select option function
-        select_option_menu(list, &new_list_length, buffer, portion2, portion3);
+        select_option_menu(list, &new_list_length, buffer, portion2, portion3, comp);
 
     // set menu will only enter if set_flag is true
     set_option:
         if (set_flag == true)
         {
             bool error_file_open = false;
-            list = set_option_menu(list, &new_list_length, buffer, &error_file_open);
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open,comp);
             if (error_file_open)
             {
                 return;
@@ -158,6 +159,8 @@ int main(int argc, char *argv[])
 {
     Customer *customers, *list;
     FILE *file;
+    enum Compiler comp;
+    comp = COMP_MAIN;
 
     if (argc != 2)
     {
@@ -200,7 +203,7 @@ int main(int argc, char *argv[])
     prompt_menu(&prompt_menu_for_first_time);
 
     sort_list(list, new_list_length);
-    print_list(list, new_list_length);
+    print_list(list, new_list_length, comp);
 
     bool has_quit = false;
     all_input_logic(list, new_list_length, &has_quit);

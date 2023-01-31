@@ -21,12 +21,16 @@ typedef struct
     char date[12];
 } Customer;
 
+enum Compiler
+{
+    COMP_MAIN,
+    COMP_SERVER,
+};
+
 void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
-void print_list(Customer *customers, int length);
+void print_list(Customer *list, int new_list_length, enum Compiler comp);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
-void print_list_server(Customer *list, int length);
-
 
 #endif

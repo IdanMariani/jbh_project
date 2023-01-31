@@ -48,22 +48,55 @@ void sort_list(Customer *customers, int length)
     }
 }
 
-void print_list(Customer *customers, int length)
+void print_list(Customer *list, int new_list_length, enum Compiler comp)
 {
-    printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
-
-    for (int i = 0; i < 85; i++)
+    if (comp == COMP_MAIN)
     {
-        printf("*");
-    }
-    printf("\n");
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
 
-    for (int i = 0; i < length; i++)
-    {
-        printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", customers[i].first_name, customers[i].last_name,
-               customers[i].id, customers[i].phone, customers[i].debt, customers[i].date);
+        for (int i = 0; i < 85; i++)
+        {
+            printf("*");
+        }
+        printf("\n");
+
+        for (int i = 0; i < new_list_length; i++)
+        {
+            printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                   list[i].id, list[i].phone, list[i].debt, list[i].date);
+        }
+        printf("\n");
     }
-    printf("\n");
+    else if (comp == COMP_SERVER)
+    {
+        sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto end;
+        }
+        sprintf(buffer_send, "%s\n", "*************************************************************************************");
+        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+        if (n < 0)
+        {
+            perror("Server error sending data");
+            goto end;
+        }
+        for (int i = 0; i < new_list_length; i++)
+        {
+            sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                    list[i].id, list[i].phone, list[i].debt, list[i].date);
+            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
+            if (n < 0)
+            {
+                perror("Server error sending data");
+                goto end;
+            }
+        }
+    end:
+        puts("");
+    }
 }
 
 void switch_to_lower(char *buffer)
@@ -139,35 +172,4 @@ bool spaces_count(char *string, int index)
     }
 
     return false;
-}
-
-void print_list_server(Customer *list, int new_list_length)
-{
-    sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
-    n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-    if (n < 0)
-    {
-        perror("Server error sending data");
-        goto end;
-    }
-    sprintf(buffer_send, "%s\n", "*************************************************************************************");
-    n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-    if (n < 0)
-    {
-        perror("Server error sending data");
-        goto end;
-    }
-    for (int i = 0; i < new_list_length; i++)
-    {
-        sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
-                list[i].id, list[i].phone, list[i].debt, list[i].date);
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            goto end;
-        }
-    }
-end:
-    puts("");
 }

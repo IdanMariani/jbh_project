@@ -19,7 +19,7 @@ int new_sock;
 void *conn_handler(void *args)
 {
     new_sock = (int)args;
-
+    enum Compiler comp = COMP_SERVER;
     n = recv(new_sock, buffer_send, MAX_LEN, 0);
     if (n < 0)
     {
@@ -51,7 +51,6 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "quit") == 0)
     {
-        strcpy(buffer_send, "program has exit");
         n = send(new_sock, buffer_send, strlen(buffer_send), 0);
         if (n < 0)
         {
@@ -64,7 +63,7 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "print") == 0)
     {
-        print_list_server(list,new_list_length);
+        print_list(list, new_list_length, comp);
         goto exit;
     }
 
@@ -189,13 +188,13 @@ void *conn_handler(void *args)
     }
 
     // if we pass all 3 catgory valid input we reach select option menu
-    select_option_menu_server(list, &new_list_length, new_buffer, portion2, portion3);
+    select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, comp);
 
 set_option:
     if (set_flag == true)
     {
         bool error_file_open = false;
-        list = set_option_menu_server(list, &new_list_length, new_buffer, &error_file_open);
+        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open,comp);
         if (error_file_open)
         {
             goto exit;
@@ -253,8 +252,7 @@ int main(int argc, char **argv)
     // free old list from csv
     free(customers);
     sort_list(list, new_list_length);
-    print_list(list, new_list_length);
-
+      
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
