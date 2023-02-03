@@ -11,7 +11,6 @@
 #include <pthread.h>
 
 Customer *list;
-char buffer_send[MAX_BUFFER];
 int new_list_length;
 int n;
 int new_sock;
@@ -20,6 +19,7 @@ void *conn_handler(void *args)
 {
     new_sock = (int)args;
     enum Compiler comp = COMP_SERVER;
+    char buffer_send[MAX_BUFFER];
 
     n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
     if (n < 0)

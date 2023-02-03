@@ -653,6 +653,8 @@ void date_operator(Customer *list, int new_list_length, char portion2, char *por
 
 void first_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
+
     switch (portion2)
     {
     case '!':
@@ -776,6 +778,7 @@ void first_name_operator_server(Customer *list, int new_list_length, char portio
 
 void last_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
     switch (portion2)
     {
     case '!':
@@ -909,6 +912,7 @@ void last_name_operator_server(Customer *list, int new_list_length, char portion
 
 void id_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
     switch (portion2)
     {
     case '!':
@@ -1042,6 +1046,7 @@ void id_operator_server(Customer *list, int new_list_length, char portion2, char
 
 void phone_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
     switch (portion2)
     {
     case '!':
@@ -1175,6 +1180,7 @@ void phone_operator_server(Customer *list, int new_list_length, char portion2, c
 
 void debt_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
     float f_portion3 = atof(portion3);
 
     switch (portion2)
@@ -1310,6 +1316,7 @@ void debt_operator_server(Customer *list, int new_list_length, char portion2, ch
 
 void date_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
 {
+    char buffer_send[MAX_BUFFER];
     switch (portion2)
     {
     case '!':

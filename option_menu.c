@@ -56,7 +56,7 @@ bool found_in_list(Customer *list, int new_list_length, char *portion3, int inde
 void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, enum Compiler comp)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
-
+    char buffer_send[MAX_BUFFER];
     bool customer_in_list = true;
 
     for (int i = 0; i < ARR_SIZE(select_menu); i++)
@@ -98,7 +98,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 {
     char *set_menu[] = {"first name=", "last name=", "id=", "phone=", "debt=", "date="};
     char set_dilimiter[] = "=,";
-
+    char buffer_send[MAX_BUFFER];
     int set_check_counter = 0;
 
     for (int i = 0; i < ARR_SIZE(set_menu); i++)

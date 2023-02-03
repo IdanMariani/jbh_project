@@ -50,6 +50,8 @@ void sort_list(Customer *customers, int length)
 
 void print_list(Customer *list, int new_list_length, enum Compiler comp)
 {
+    char buffer_send[MAX_BUFFER];
+
     if (comp == COMP_LOCAL)
     {
         printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
@@ -74,14 +76,14 @@ void print_list(Customer *list, int new_list_length, enum Compiler comp)
         if (n < 0)
         {
             perror("Server error sending data");
-            goto end;
+            return;
         }
         sprintf(buffer_send, "%s\n", "*************************************************************************************");
         n = send(new_sock, buffer_send, strlen(buffer_send), 0);
         if (n < 0)
         {
             perror("Server error sending data");
-            goto end;
+            return;
         }
         for (int i = 0; i < new_list_length; i++)
         {
@@ -91,11 +93,9 @@ void print_list(Customer *list, int new_list_length, enum Compiler comp)
             if (n < 0)
             {
                 perror("Server error sending data");
-                goto end;
+                return;
             }
         }
-    end:
-        puts("");
     }
 }
 
