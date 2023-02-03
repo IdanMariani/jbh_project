@@ -40,7 +40,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 
         if (strcmp(buffer, "print") == 0)
         {
-            print_list(list, new_list_length, comp);
+            print_list_new(list, new_list_length, cb_print_local);
             goto end;
         }
 
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     prompt_menu(&prompt_menu_for_first_time);
 
     sort_list(list, new_list_length);
-    print_list(list, new_list_length, comp);
+    print_list_new(list, new_list_length, cb_print_local);
 
     bool has_quit = false;
     all_input_logic(list, new_list_length, &has_quit);

@@ -46,7 +46,7 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "print") == 0)
     {
-        print_list(list, new_list_length, comp);
+        print_list_new(list,new_list_length,cb_print_server);
         goto exit;
     }
 

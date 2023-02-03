@@ -29,8 +29,12 @@ enum Compiler
 
 void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
-void print_list(Customer *list, int new_list_length, enum Compiler comp);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
+
+void cb_print_local(char *str);
+void cb_print_server(char *buffer);
+void print_list_new(Customer *list, int new_list_length, void(*callback)(char *));
+
 
 #endif

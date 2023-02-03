@@ -48,57 +48,6 @@ void sort_list(Customer *customers, int length)
     }
 }
 
-void print_list(Customer *list, int new_list_length, enum Compiler comp)
-{
-    char buffer_send[MAX_BUFFER];
-
-    if (comp == COMP_LOCAL)
-    {
-        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
-
-        for (int i = 0; i < 85; i++)
-        {
-            printf("*");
-        }
-        printf("\n");
-
-        for (int i = 0; i < new_list_length; i++)
-        {
-            printf("%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
-                   list[i].id, list[i].phone, list[i].debt, list[i].date);
-        }
-        printf("\n");
-    }
-    else if (comp == COMP_SERVER)
-    {
-        sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            return;
-        }
-        sprintf(buffer_send, "%s\n", "*************************************************************************************");
-        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-        if (n < 0)
-        {
-            perror("Server error sending data");
-            return;
-        }
-        for (int i = 0; i < new_list_length; i++)
-        {
-            sprintf(buffer_send, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
-                    list[i].id, list[i].phone, list[i].debt, list[i].date);
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
-        }
-    }
-}
-
 void switch_to_lower(char *buffer)
 {
     int length = strlen(buffer);
@@ -172,4 +121,34 @@ bool spaces_count(char *string, int index)
     }
 
     return false;
+}
+
+void cb_print_local(char *str)
+{
+    printf("%s", str);
+}
+
+void cb_print_server(char *buffer)
+{
+    if (send(new_sock, buffer, strlen(buffer), 0) < 0)
+    {
+        perror("Send failed");
+        return;
+    }
+}
+
+void print_list_new(Customer *list, int new_list_length, void (*callback)(char *))
+{
+    char buffer_send[MAX_BUFFER];
+
+    snprintf(buffer_send, MAX_BUFFER, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
+    callback(buffer_send);
+    callback("*************************************************************************************\n");
+    for (int i = 0; i < new_list_length; i++)
+    {
+        snprintf(buffer_send, MAX_BUFFER, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
+                 list[i].id, list[i].phone, list[i].debt, list[i].date);
+        callback(buffer_send);
+    }
+    callback("\n");
 }

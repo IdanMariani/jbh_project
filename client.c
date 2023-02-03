@@ -77,7 +77,7 @@ int main(int argc, char **argv)
         {
             while (true)
             {
-                printf("plz enter send or quit\n");
+                printf("\nplz enter send or quit\n");
                 fgets(buffer[i], MAX_BUFFER, stdin);
                 if (strcmp(buffer[i], "send\n") == 0)
                 {
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
             r = 0;
             do
             {
-                n = recv(sockfd[i], buffer[i] + r, MAX_LEN - r, 0);
+                n = recv(sockfd[i], buffer[i] + r, MAX_BUFFER - r, 0);
                 r += n;
             } while (n > 0);
             if (n < 0)
