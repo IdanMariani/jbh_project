@@ -18,7 +18,6 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 
     while (1)
     {
-
         fgets(buffer, MAX_BUFFER, stdin);
         int buffer_length = strlen(buffer);
         buffer[buffer_length - 1] = '\0';

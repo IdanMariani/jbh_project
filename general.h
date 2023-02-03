@@ -31,10 +31,11 @@ void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
-
+void print_list_new(Customer *list, int new_list_length, void (*callback)(char *));
 void cb_print_local(char *str);
 void cb_print_server(char *buffer);
-void print_list_new(Customer *list, int new_list_length, void(*callback)(char *));
-
+void print_error(char *buffer, void (*callback)(char *));
+void cb_error_server(char *buffer);
+void cb_error_local(char *buffer);
 
 #endif

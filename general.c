@@ -152,3 +152,24 @@ void print_list_new(Customer *list, int new_list_length, void (*callback)(char *
     }
     callback("\n");
 }
+
+void cb_error_local(char *buffer)
+{
+    printf("%s", buffer);
+}
+
+void cb_error_server(char *buffer)
+{
+    if (send(new_sock, buffer, strlen(buffer), 0) < 0)
+    {
+        perror("Send failed");
+        return;
+    }
+}
+
+void print_error(char *buffer, void (*callback)(char *))
+{
+    char buffer_send[MAX_BUFFER];
+    snprintf(buffer_send, MAX_BUFFER, "%s\n",buffer);
+    callback(buffer_send);
+}

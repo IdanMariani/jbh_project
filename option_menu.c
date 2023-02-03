@@ -56,7 +56,7 @@ bool found_in_list(Customer *list, int new_list_length, char *portion3, int inde
 void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, enum Compiler comp)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
-    char buffer_send[MAX_BUFFER];
+    char buff[MAX_BUFFER];
     bool customer_in_list = true;
 
     for (int i = 0; i < ARR_SIZE(select_menu); i++)
@@ -73,21 +73,15 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
             {
                 if (comp == COMP_LOCAL)
                 {
-                    printf("%s was not found in list\n", portion3);
+                    sprintf(buff, "%s was not found in list\n", portion3);
+                    print_error(buff, cb_error_local);
                 }
 
                 else if (comp == COMP_SERVER)
                 {
-                    sprintf(buffer_send, "%s was not found in list", portion3);
-                    n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                    if (n < 0)
-                    {
-                        perror("Server error sending data");
-                        break;
-                    }
-                    break;
+                    sprintf(buff, "%s was not found in list", portion3);
+                    print_error(buff, cb_error_server);
                 }
-
                 break;
             }
         }
@@ -98,7 +92,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 {
     char *set_menu[] = {"first name=", "last name=", "id=", "phone=", "debt=", "date="};
     char set_dilimiter[] = "=,";
-    char buffer_send[MAX_BUFFER];
+    char buff[MAX_BUFFER];
     int set_check_counter = 0;
 
     for (int i = 0; i < ARR_SIZE(set_menu); i++)
@@ -115,17 +109,13 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             print_clean[length - 1] = '\0';
             if (comp == COMP_LOCAL)
             {
-                printf("error at %s", print_clean);
+                sprintf(buff, "Error at %s", print_clean);
+                print_error(buff, cb_error_local);
             }
             else if (comp == COMP_SERVER)
             {
-                sprintf(buffer_send, "error at %s\n", print_clean);
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    goto end;
-                }
+                sprintf(buff, "Error at %s", print_clean);
+                print_error(buff, cb_error_server);
             }
             goto end;
         }
@@ -175,17 +165,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == COMP_LOCAL)
             {
-                printf("empty args in set option");
+                print_error("Empty args in set option", cb_error_local);
             }
             else if (comp == COMP_SERVER)
             {
-                strcpy(buffer_send, "empty args in set option\n");
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    goto end;
-                }
+                print_error("Empty args in set option", cb_error_server);
             }
             goto end;
         }
@@ -196,17 +180,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == COMP_LOCAL)
             {
-                printf("Error more then 6 args in set option");
+                print_error("Error more then 6 args in set option", cb_error_local);
             }
             else if (comp == COMP_SERVER)
             {
-                strcpy(buffer_send, "Error more then 6 args in set option\n");
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    goto end;
-                }
+                print_error("Error more then 6 args in set option", cb_error_server);
             }
             goto end;
         }
@@ -216,17 +194,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == COMP_LOCAL)
             {
-                printf("Error opening file.\n");
+                print_error("Error opening file.", cb_error_local);
             }
             else if (comp == COMP_SERVER)
             {
-                strcpy(buffer_send, "Error opening file.\n");
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    goto end;
-                }
+                print_error("Error opening file.", cb_error_server);
             }
             *error_file_open = true;
             goto end;
@@ -275,18 +247,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                 {
                     if (comp == COMP_LOCAL)
                     {
-                        printf("customer with same id but has diffrent name");
+                        print_error("Customer with same id but has diffrent name.", cb_error_local);
                     }
                     else if (comp == COMP_SERVER)
                     {
-                        strcpy(buffer_send, "customer with same id but has diffrent name\n");
-                        n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                        if (n < 0)
-                        {
-                            perror("Server error sending data");
-                            free(customer);
-                            goto end;
-                        }
+                        print_error("Customer with same id but has diffrent name.", cb_error_server);
                     }
                     free(customer);
                     goto end;
@@ -304,18 +269,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 
             if (comp == COMP_LOCAL)
             {
-                printf("new customer add successfully.\n");
+                print_error("new customer add successfully.", cb_error_local);
             }
             else if (comp == COMP_SERVER)
             {
-                strcpy(buffer_send, "new customer add successfully.\n");
-                n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                if (n < 0)
-                {
-                    perror("Server error sending data");
-                    free(customer);
-                    goto end;
-                }
+                print_error("new customer add successfully.", cb_error_server);
             }
         }
 

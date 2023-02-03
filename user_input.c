@@ -21,17 +21,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == COMP_LOCAL)
         {
-            printf("Error first args\n");
+            print_error("Error first args", cb_error_local);
         }
         else if (comp == COMP_SERVER)
         {
-            strcpy(buffer_send, "Error first args");
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
+            print_error("Error first args", cb_error_server);
         }
         return;
     }
@@ -53,17 +47,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
                 *error_input = true;
                 if (comp == COMP_LOCAL)
                 {
-                    printf("Error first args\n");
+                    print_error("Error first args", cb_error_local);
                 }
                 else if (comp == COMP_SERVER)
                 {
-                    strcpy(buffer_send, "Error first args");
-                    n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-                    if (n < 0)
-                    {
-                        perror("Server error sending data");
-                        return;
-                    }
+                    print_error("Error first args", cb_error_server);
                 }
                 return;
             }
@@ -75,17 +63,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == COMP_LOCAL)
         {
-            printf("Error first args\n");
+            print_error("Error first args", cb_error_local);
         }
         else if (comp == COMP_SERVER)
         {
-            strcpy(buffer_send, "Error first args");
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
+            print_error("Error first args", cb_error_server);
         }
         return;
     }
@@ -126,17 +108,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == COMP_LOCAL)
         {
-            printf("Error third args\n");
+            print_error("Error third args", cb_error_local);
         }
         else if (comp == COMP_SERVER)
         {
-            strcpy(buffer_send, "Error third args");
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
+            print_error("Error third args", cb_error_server);
         }
         return;
     }
@@ -146,17 +122,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == COMP_LOCAL)
         {
-            printf("Error second args\n");
+            print_error("Error second args", cb_error_local);
         }
         else if (comp == COMP_SERVER)
         {
-            strcpy(buffer_send, "Error second args");
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
+            print_error("Error second args", cb_error_server);
         }
         return;
     }
@@ -166,17 +136,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == COMP_LOCAL)
         {
-            printf("error at validation\n");
+            print_error("Error at validation", cb_error_local);
         }
         else if (comp == COMP_SERVER)
         {
-            strcpy(buffer_send, "error at validation\n");
-            n = send(new_sock, buffer_send, strlen(buffer_send), 0);
-            if (n < 0)
-            {
-                perror("Server error sending data");
-                return;
-            }
+            print_error("Error at validation", cb_error_server);
         }
         return;
     }
