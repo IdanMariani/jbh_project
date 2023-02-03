@@ -1,5 +1,5 @@
 .vscode
 *.o
-main
+local
 server
 client

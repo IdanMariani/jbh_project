@@ -112,7 +112,6 @@ int main(int argc, char **argv)
     }
 
     // create new list array from csv
-
     list = count_debt_and_init_array(customers, max_lines, &new_list_length);
     if (list == NULL)
     {

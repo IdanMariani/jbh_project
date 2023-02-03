@@ -22,13 +22,16 @@ each category can use 4 diffrent operators.
 Step #1: run command:
 make
 Step #2: choose from 3 options:
-# Local
-run .local customers.txt
-# Server And Client
-first run ./server 1212 customers.txt
-second run .client 1212 127.0.0.1
-
-Optional Step #:delete .o files
+local, server, client
+# Make & Run Local
+make local
+.local customers.txt
+# Make & Run Server And Client
+make server
+./server 1212 customers.txt
+make client
+.client 1212 127.0.0.1
+# Delete .o files
 run command:
 make clean
 
@@ -54,7 +57,8 @@ print
 quit
 
 # Examples for Server and Client
-in this mode you will be able to send up to 5 messges
+in this mode you will be able to send up to 5 messages
+in order to send enter send
 
 # Author Info
 idan mariani
