@@ -13,11 +13,11 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
     char portion2 = '\0';
     char portion3[MAX_BUFFER] = {0};
 
-    bool error_input = false;
-    bool set_flag = false;
-
     while (1)
-    {
+    {   
+        bool error_input = false;
+        bool set_flag = false;
+
         fgets(buffer, MAX_BUFFER, stdin);
         int buffer_length = strlen(buffer);
         buffer[buffer_length - 1] = '\0';
@@ -60,11 +60,8 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
             {
                 return;
             }
-            set_flag = false;
         }
-
     end:
-        error_input = false;
         puts("");
     }
 }

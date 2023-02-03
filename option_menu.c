@@ -93,6 +93,7 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
     char *set_menu[] = {"first name=", "last name=", "id=", "phone=", "debt=", "date="};
     char set_dilimiter[] = "=,";
     char buff[MAX_BUFFER];
+    char highest_so_far[11];
     int set_check_counter = 0;
 
     for (int i = 0; i < ARR_SIZE(set_menu); i++)
@@ -239,8 +240,21 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                 if (((strcmp(list[i].first_name, customer->first_name) == 0) && strcmp(list[i].last_name, customer->last_name) == 0))
                 {
                     list[i].debt += customer->debt;
-                    strcpy(list[i].date, customer->date);
+                    strcpy(highest_so_far, list[i].date);
+                    if (find_highest_date(highest_so_far, customer->date))
+                    {
+                        strcpy(highest_so_far, customer->date);
+                    }
+                    strcpy(list[i].date, highest_so_far);
                     sort_list(list, *new_list_length);
+                    if (comp == COMP_LOCAL)
+                    {
+                        print_error("update customer debt.", cb_error_local);
+                    }
+                    else if (comp == COMP_SERVER)
+                    {
+                        print_error("update customer debt.", cb_error_server);
+                    }
                     break;
                 }
                 else
