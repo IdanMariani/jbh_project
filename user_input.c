@@ -9,7 +9,6 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
 
     char new_buffer[MAX_BUFFER] = {0};
     char temp_buffer[MAX_BUFFER] = {0};
-    char buffer_send[MAX_BUFFER];
 
     strcpy(new_buffer, buffer);
     strcpy(temp_buffer, new_buffer);

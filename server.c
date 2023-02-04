@@ -46,7 +46,7 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "print") == 0)
     {
-        print_list_new(list,new_list_length,cb_print_server);
+        print_list(list, new_list_length, cb_print_server);
         goto exit;
     }
 
@@ -121,6 +121,7 @@ int main(int argc, char **argv)
     // free old list from csv
     free(customers);
     sort_list(list, new_list_length);
+    print_list(list, new_list_length, cb_print_local);
 
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);

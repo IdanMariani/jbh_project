@@ -137,7 +137,7 @@ void cb_print_server(char *buffer)
     }
 }
 
-void print_list_new(Customer *list, int new_list_length, void (*callback)(char *))
+void print_list(Customer *list, int new_list_length, void (*callback)(char *))
 {
     char buffer_send[MAX_BUFFER];
 
