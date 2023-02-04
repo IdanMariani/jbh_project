@@ -58,7 +58,7 @@ quit
 
 # Examples for Server and Client
 in this mode you will be able to send up to 5 messages
-in order to send enter send
+by typing the command send
 
 # Author Info
 idan mariani
