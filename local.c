@@ -5,11 +5,10 @@
 #include "option_menu.h"
 #include "user_input.h"
 
+
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
-    enum Compiler comp = COMP_LOCAL;
     char buffer[MAX_BUFFER] = {0};
-
     char portion2 = '\0';
     char portion3[MAX_BUFFER] = {0};
 
@@ -43,19 +42,19 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
             goto end;
         }
 
-        error_handle(buffer, &portion2, portion3, &error_input, comp);
+        error_handle(buffer, &portion2, portion3, &error_input, LOCAL);
         if (error_input == true)
         {
             goto end;
         }
 
-        select_option_menu(list, &new_list_length, buffer, portion2, portion3, comp);
+        select_option_menu(list, &new_list_length, buffer, portion2, portion3, LOCAL);
 
     set_option:
         if (set_flag == true)
         {
             bool error_file_open = false;
-            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, comp);
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, LOCAL);
             if (error_file_open)
             {
                 return;

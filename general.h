@@ -10,6 +10,8 @@
 
 #define ARR_SIZE(_a) sizeof(_a) / sizeof(_a[0])
 #define MAX_BUFFER 1024
+#define LOCAL 0
+#define SERVER 1
 
 typedef struct
 {
@@ -20,12 +22,6 @@ typedef struct
     float debt;
     char date[12];
 } Customer;
-
-enum Compiler
-{
-    COMP_LOCAL,
-    COMP_SERVER,
-};
 
 void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);

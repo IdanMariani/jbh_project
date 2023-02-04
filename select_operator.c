@@ -27,66 +27,66 @@ bool fill_portion2_operator(int index, char *portion2)
     return false;
 }
 
-void print_operator(Customer *list, int new_list_length, int index, char portion2, char *portion3, enum Compiler comp)
+void print_operator(Customer *list, int new_list_length, int index, char portion2, char *portion3, int comp)
 {
     switch (index)
     {
     case 0:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             first_name_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             first_name_operator_server(list, new_list_length, portion2, portion3);
         }
         break;
     case 1:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             last_name_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             last_name_operator_server(list, new_list_length, portion2, portion3);
         }
         break;
     case 2:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             id_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             id_operator_server(list, new_list_length, portion2, portion3);
         }
         break;
     case 3:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             phone_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             phone_operator_server(list, new_list_length, portion2, portion3);
         }
         break;
     case 4:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             debt_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             debt_operator_server(list, new_list_length, portion2, portion3);
         }
         break;
     case 5:
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             date_operator(list, new_list_length, portion2, portion3);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             date_operator_server(list, new_list_length, portion2, portion3);
         }

@@ -5,5 +5,5 @@
 #include "select_operator.h"
 #include "validate.h"
 
-void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, enum Compiler comp);
+void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, int comp);
 #endif

@@ -18,7 +18,6 @@ int new_sock;
 void *conn_handler(void *args)
 {
     new_sock = (int)args;
-    enum Compiler comp = COMP_SERVER;
     char buffer_send[MAX_BUFFER];
 
     n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
@@ -50,19 +49,19 @@ void *conn_handler(void *args)
         goto exit;
     }
 
-    error_handle(new_buffer, &portion2, portion3, &error_input, comp);
+    error_handle(new_buffer, &portion2, portion3, &error_input, SERVER);
     if (error_input == true)
     {
         goto exit;
     }
 
-    select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, comp);
+    select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, SERVER);
 
 set_option:
     if (set_flag == true)
     {
         bool error_file_open = false;
-        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open, comp);
+        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open, SERVER);
         if (error_file_open)
         {
             goto exit;

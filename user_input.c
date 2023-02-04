@@ -1,6 +1,6 @@
 #include "user_input.h"
 
-void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, enum Compiler comp)
+void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, int comp)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
     char select_dilimiter[] = "=<>";
@@ -18,11 +18,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
     if (portion1 == NULL)
     {
         *error_input = true;
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             print_error("Error first args", cb_error_local);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             print_error("Error first args", cb_error_server);
         }
@@ -44,11 +44,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
             if (error_spaces)
             {
                 *error_input = true;
-                if (comp == COMP_LOCAL)
+                if (comp == LOCAL)
                 {
                     print_error("Error first args", cb_error_local);
                 }
-                else if (comp == COMP_SERVER)
+                else if (comp == SERVER)
                 {
                     print_error("Error first args", cb_error_server);
                 }
@@ -60,11 +60,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
     if (select_check_counter == false)
     {
         *error_input = true;
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             print_error("Error first args", cb_error_local);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             print_error("Error first args", cb_error_server);
         }
@@ -105,11 +105,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
     if (select_portion2_counter == true && portion3_value == NULL)
     {
         *error_input = true;
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             print_error("Error third args", cb_error_local);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             print_error("Error third args", cb_error_server);
         }
@@ -119,11 +119,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
     if (select_portion2_counter == false || compere_valid == false)
     {
         *error_input = true;
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             print_error("Error second args", cb_error_local);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             print_error("Error second args", cb_error_server);
         }
@@ -133,11 +133,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
     if (!check_all_validation_select(portion3_value, select_args))
     {
         *error_input = true;
-        if (comp == COMP_LOCAL)
+        if (comp == LOCAL)
         {
             print_error("Error at validation", cb_error_local);
         }
-        else if (comp == COMP_SERVER)
+        else if (comp == SERVER)
         {
             print_error("Error at validation", cb_error_server);
         }

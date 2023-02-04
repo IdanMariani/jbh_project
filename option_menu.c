@@ -53,7 +53,7 @@ bool found_in_list(Customer *list, int new_list_length, char *portion3, int inde
     return false;
 }
 
-void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, enum Compiler comp)
+void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, int comp)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
     char buff[MAX_BUFFER];
@@ -71,13 +71,13 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
             }
             else if (customer_in_list == false)
             {
-                if (comp == COMP_LOCAL)
+                if (comp == LOCAL)
                 {
                     sprintf(buff, "%s was not found in list\n", portion3);
                     print_error(buff, cb_error_local);
                 }
 
-                else if (comp == COMP_SERVER)
+                else if (comp == SERVER)
                 {
                     sprintf(buff, "%s was not found in list", portion3);
                     print_error(buff, cb_error_server);
@@ -88,7 +88,7 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
     }
 }
 
-Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bool *error_file_open, enum Compiler comp)
+Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bool *error_file_open, int comp)
 {
     char *set_menu[] = {"first name=", "last name=", "id=", "phone=", "debt=", "date="};
     char set_dilimiter[] = "=,";
@@ -108,12 +108,12 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             strcpy(print_clean, set_menu[i]);
             int length = strlen(print_clean);
             print_clean[length - 1] = '\0';
-            if (comp == COMP_LOCAL)
+            if (comp == LOCAL)
             {
                 sprintf(buff, "Error at %s", print_clean);
                 print_error(buff, cb_error_local);
             }
-            else if (comp == COMP_SERVER)
+            else if (comp == SERVER)
             {
                 sprintf(buff, "Error at %s", print_clean);
                 print_error(buff, cb_error_server);
@@ -164,11 +164,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 
         if (null_flag == true)
         {
-            if (comp == COMP_LOCAL)
+            if (comp == LOCAL)
             {
                 print_error("Empty args in set option", cb_error_local);
             }
-            else if (comp == COMP_SERVER)
+            else if (comp == SERVER)
             {
                 print_error("Empty args in set option", cb_error_server);
             }
@@ -179,11 +179,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         char *check_overflow = strtok(NULL, set_dilimiter);
         if (check_overflow != NULL)
         {
-            if (comp == COMP_LOCAL)
+            if (comp == LOCAL)
             {
                 print_error("Error more then 6 args in set option", cb_error_local);
             }
-            else if (comp == COMP_SERVER)
+            else if (comp == SERVER)
             {
                 print_error("Error more then 6 args in set option", cb_error_server);
             }
@@ -193,11 +193,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         FILE *file = fopen("customers.txt", "a");
         if (file == NULL)
         {
-            if (comp == COMP_LOCAL)
+            if (comp == LOCAL)
             {
                 print_error("Error opening file.", cb_error_local);
             }
-            else if (comp == COMP_SERVER)
+            else if (comp == SERVER)
             {
                 print_error("Error opening file.", cb_error_server);
             }
@@ -247,11 +247,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                     }
                     strcpy(list[i].date, highest_so_far);
                     sort_list(list, *new_list_length);
-                    if (comp == COMP_LOCAL)
+                    if (comp == LOCAL)
                     {
                         print_error("update customer debt.", cb_error_local);
                     }
-                    else if (comp == COMP_SERVER)
+                    else if (comp == SERVER)
                     {
                         print_error("update customer debt.", cb_error_server);
                     }
@@ -259,11 +259,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                 }
                 else
                 {
-                    if (comp == COMP_LOCAL)
+                    if (comp == LOCAL)
                     {
                         print_error("Customer with same id but has diffrent name.", cb_error_local);
                     }
-                    else if (comp == COMP_SERVER)
+                    else if (comp == SERVER)
                     {
                         print_error("Customer with same id but has diffrent name.", cb_error_server);
                     }
@@ -281,11 +281,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             list[*new_list_length - 1] = *customer;
             sort_list(list, *new_list_length);
 
-            if (comp == COMP_LOCAL)
+            if (comp == LOCAL)
             {
                 print_error("new customer add successfully.", cb_error_local);
             }
-            else if (comp == COMP_SERVER)
+            else if (comp == SERVER)
             {
                 print_error("new customer add successfully.", cb_error_server);
             }
