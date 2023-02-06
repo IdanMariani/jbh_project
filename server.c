@@ -172,7 +172,6 @@ int main(int argc, char **argv)
         // pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
         pthread_create(&tid, NULL, conn_handler, &args);
         pthread_join(tid, NULL);
-        
     }
 
     return 0;
