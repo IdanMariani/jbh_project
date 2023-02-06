@@ -10,17 +10,19 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-Customer *list;
-int new_list_length;
-int n;
-int new_sock;
+typedef struct
+{
+    Customer **list;
+    int *new_list_length;
+    int sock;
+} Args_Parms;
 
 void *conn_handler(void *args)
 {
-    new_sock = (int)args;
+    Args_Parms *args_parms = args;
     char buffer_send[MAX_BUFFER];
-
-    n = recv(new_sock, buffer_send, MAX_BUFFER, 0);
+    int n;
+    n = recv(args_parms->sock, buffer_send, MAX_BUFFER, 0);
     if (n < 0)
     {
         perror("Server error receiving data");
@@ -45,23 +47,26 @@ void *conn_handler(void *args)
 
     if (strcmp(new_buffer, "print") == 0)
     {
-        print_list(list, new_list_length, cb_print_server);
+        // print_list(list, new_list_length, cb_print_server);
+        print_list(*(args_parms->list), *(args_parms->new_list_length), args_parms->sock, cb_print_server);
         goto exit;
     }
 
-    error_handle(new_buffer, &portion2, portion3, &error_input, SERVER);
+    error_handle(new_buffer, &portion2, portion3, &error_input, SERVER, args_parms->sock);
     if (error_input == true)
     {
         goto exit;
     }
 
-    select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, SERVER);
+    // select_option_menu(list, &new_list_length, new_buffer, portion2, portion3, SERVER);
+    select_option_menu(*(args_parms->list), args_parms->new_list_length, new_buffer, portion2, portion3, SERVER, args_parms->sock);
 
 set_option:
     if (set_flag == true)
     {
         bool error_file_open = false;
-        list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open, SERVER);
+        // list = set_option_menu(list, &new_list_length, new_buffer, &error_file_open, SERVER);
+        *(args_parms->list) = set_option_menu(*(args_parms->list), args_parms->new_list_length, new_buffer, &error_file_open, SERVER, args_parms->sock);
         if (error_file_open)
         {
             goto exit;
@@ -71,7 +76,7 @@ set_option:
 
 exit:
     error_input = false;
-    close(new_sock);
+    close(args_parms->sock);
     return NULL;
 }
 
@@ -91,7 +96,6 @@ int main(int argc, char **argv)
     Customer *customers;
     FILE *file;
 
-    new_list_length = 0;
     file = fopen(argv[2], "r");
 
     if (file == NULL)
@@ -103,7 +107,7 @@ int main(int argc, char **argv)
     int max_lines = 1;
     find_max_lines(file, &max_lines);
     customers = malloc(sizeof(Customer) * max_lines);
-
+    int list_length = 0;
     // 0 mean we have an error reading the csv file /so we return 1 to stop
     if (read_from_csv_file(file, customers) == 0)
     {
@@ -111,7 +115,7 @@ int main(int argc, char **argv)
     }
 
     // create new list array from csv
-    list = count_debt_and_init_array(customers, max_lines, &new_list_length);
+    Customer *list = count_debt_and_init_array(customers, max_lines, &list_length);
     if (list == NULL)
     {
         return 1;
@@ -119,8 +123,8 @@ int main(int argc, char **argv)
 
     // free old list from csv
     free(customers);
-    sort_list(list, new_list_length);
-    print_list(list, new_list_length, cb_print_local);
+    sort_list(list, list_length);
+    print_list(list, list_length, 0, cb_print_local);
 
     /* Create a socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -158,8 +162,17 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
+        Args_Parms args =
+            {
+                args.list = &list,
+                args.new_list_length = &list_length,
+                args.sock = new_sock,
+            };
+
+        // pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
+        pthread_create(&tid, NULL, conn_handler, &args);
         pthread_join(tid, NULL);
+        
     }
 
     return 0;

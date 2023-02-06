@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include "server.h"
 
 #define ARR_SIZE(_a) sizeof(_a) / sizeof(_a[0])
 #define MAX_BUFFER 1024
@@ -27,11 +26,11 @@ void prompt_menu(bool *first_time);
 void sort_list(Customer *customers, int length);
 void switch_to_lower(char *buffer);
 bool spaces_count(char *string, int index);
-void print_list(Customer *list, int new_list_length, void (*callback)(char *));
-void cb_print_local(char *str);
-void cb_print_server(char *buffer);
-void print_error(char *buffer, void (*callback)(char *));
-void cb_error_server(char *buffer);
-void cb_error_local(char *buffer);
+void print_list(Customer *list, int new_list_length, int new_sock ,void (*callback)(char *,int));
+void cb_print_local(char *str, int new_sock);
+void cb_print_server(char *buffer, int new_sock);
+void cb_error_local(char *buffer, int new_sock);
+void cb_error_server(char *buffer, int new_sock);
+void print_error(char *buffer,int new_sock, void (*callback)(char *, int));
 
 #endif

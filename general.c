@@ -123,12 +123,12 @@ bool spaces_count(char *string, int index)
     return false;
 }
 
-void cb_print_local(char *str)
+void cb_print_local(char *str, int new_sock)
 {
     printf("%s", str);
 }
 
-void cb_print_server(char *buffer)
+void cb_print_server(char *buffer, int new_sock)
 {
     if (send(new_sock, buffer, strlen(buffer), 0) < 0)
     {
@@ -137,28 +137,28 @@ void cb_print_server(char *buffer)
     }
 }
 
-void print_list(Customer *list, int new_list_length, void (*callback)(char *))
+void print_list(Customer *list, int new_list_length, int new_sock ,void (*callback)(char *,int))
 {
     char buffer_send[MAX_BUFFER];
 
     snprintf(buffer_send, MAX_BUFFER, "%-15s%-15s%-15s%-15s%-15s%-15s\n", "First Name", "Last Name", "ID", "Phone", "Debt", "Date");
-    callback(buffer_send);
-    callback("*************************************************************************************\n");
+    callback(buffer_send,new_sock);
+    callback("*************************************************************************************\n",new_sock);
     for (int i = 0; i < new_list_length; i++)
     {
         snprintf(buffer_send, MAX_BUFFER, "%-15s%-15s%-15s%-15s%-15.2f%-15s\n", list[i].first_name, list[i].last_name,
                  list[i].id, list[i].phone, list[i].debt, list[i].date);
-        callback(buffer_send);
+        callback(buffer_send,new_sock);
     }
-    callback("\n");
+    callback("\n",new_sock);
 }
 
-void cb_error_local(char *buffer)
+void cb_error_local(char *buffer, int new_sock)
 {
     printf("%s", buffer);
 }
 
-void cb_error_server(char *buffer)
+void cb_error_server(char *buffer, int new_sock)
 {
     if (send(new_sock, buffer, strlen(buffer), 0) < 0)
     {
@@ -167,9 +167,9 @@ void cb_error_server(char *buffer)
     }
 }
 
-void print_error(char *buffer, void (*callback)(char *))
+void print_error(char *buffer,int new_sock, void (*callback)(char *, int))
 {
     char buffer_send[MAX_BUFFER];
     snprintf(buffer_send, MAX_BUFFER, "%s\n",buffer);
-    callback(buffer_send);
+    callback(buffer_send,new_sock);
 }

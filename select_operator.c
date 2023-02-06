@@ -27,7 +27,7 @@ bool fill_portion2_operator(int index, char *portion2)
     return false;
 }
 
-void print_operator(Customer *list, int new_list_length, int index, char portion2, char *portion3, int comp)
+void print_operator(Customer *list, int new_list_length, int index, char portion2, char *portion3 ,int comp, int new_sock)
 {
     switch (index)
     {
@@ -38,7 +38,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            first_name_operator_server(list, new_list_length, portion2, portion3);
+            first_name_operator_server(list, new_list_length, portion2, portion3, new_sock);
         }
         break;
     case 1:
@@ -48,7 +48,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            last_name_operator_server(list, new_list_length, portion2, portion3);
+            last_name_operator_server(list, new_list_length, portion2, portion3,new_sock);
         }
         break;
     case 2:
@@ -58,7 +58,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            id_operator_server(list, new_list_length, portion2, portion3);
+            id_operator_server(list, new_list_length, portion2, portion3,new_sock);
         }
         break;
     case 3:
@@ -68,7 +68,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            phone_operator_server(list, new_list_length, portion2, portion3);
+            phone_operator_server(list, new_list_length, portion2, portion3,new_sock);
         }
         break;
     case 4:
@@ -78,7 +78,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            debt_operator_server(list, new_list_length, portion2, portion3);
+            debt_operator_server(list, new_list_length, portion2, portion3,new_sock);
         }
         break;
     case 5:
@@ -88,7 +88,7 @@ void print_operator(Customer *list, int new_list_length, int index, char portion
         }
         else if (comp == SERVER)
         {
-            date_operator_server(list, new_list_length, portion2, portion3);
+            date_operator_server(list, new_list_length, portion2, portion3,new_sock);
         }
         break;
     default:
@@ -651,10 +651,10 @@ void date_operator(Customer *list, int new_list_length, char portion2, char *por
     }
 }
 
-void first_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void first_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
-
+    int n;
     switch (portion2)
     {
     case '!':
@@ -776,9 +776,10 @@ void first_name_operator_server(Customer *list, int new_list_length, char portio
     }
 }
 
-void last_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void last_name_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
+    int n;
     switch (portion2)
     {
     case '!':
@@ -910,9 +911,10 @@ void last_name_operator_server(Customer *list, int new_list_length, char portion
     }
 }
 
-void id_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void id_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
+    int n;
     switch (portion2)
     {
     case '!':
@@ -1044,9 +1046,10 @@ void id_operator_server(Customer *list, int new_list_length, char portion2, char
     }
 }
 
-void phone_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void phone_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
+    int n;
     switch (portion2)
     {
     case '!':
@@ -1178,9 +1181,10 @@ void phone_operator_server(Customer *list, int new_list_length, char portion2, c
     }
 }
 
-void debt_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void debt_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
+    int n;
     float f_portion3 = atof(portion3);
 
     switch (portion2)
@@ -1314,9 +1318,10 @@ void debt_operator_server(Customer *list, int new_list_length, char portion2, ch
     }
 }
 
-void date_operator_server(Customer *list, int new_list_length, char portion2, char *portion3)
+void date_operator_server(Customer *list, int new_list_length, char portion2, char *portion3, int new_sock)
 {
     char buffer_send[MAX_BUFFER];
+    int n;
     switch (portion2)
     {
     case '!':

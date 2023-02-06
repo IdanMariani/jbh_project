@@ -53,7 +53,7 @@ bool found_in_list(Customer *list, int new_list_length, char *portion3, int inde
     return false;
 }
 
-void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, int comp)
+void select_option_menu(Customer *list, int *new_list_length, char *buffer, char portion2, char *portion3, int comp, int new_sock)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
     char buff[MAX_BUFFER];
@@ -66,7 +66,7 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
             customer_in_list = found_in_list(list, *new_list_length, portion3, i);
             if (customer_in_list == true)
             {
-                print_operator(list, *new_list_length, i, portion2, portion3, comp);
+                print_operator(list, *new_list_length, i, portion2, portion3, comp,new_sock);
                 break;
             }
             else if (customer_in_list == false)
@@ -74,13 +74,13 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
                 if (comp == LOCAL)
                 {
                     sprintf(buff, "%s was not found in list\n", portion3);
-                    print_error(buff, cb_error_local);
+                    print_error(buff, new_sock,cb_error_local);
                 }
 
                 else if (comp == SERVER)
                 {
                     sprintf(buff, "%s was not found in list", portion3);
-                    print_error(buff, cb_error_server);
+                    print_error(buff, new_sock,cb_error_server);
                 }
                 break;
             }
@@ -88,7 +88,7 @@ void select_option_menu(Customer *list, int *new_list_length, char *buffer, char
     }
 }
 
-Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bool *error_file_open, int comp)
+Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bool *error_file_open, int comp, int new_sock)
 {
     char *set_menu[] = {"first name=", "last name=", "id=", "phone=", "debt=", "date="};
     char set_dilimiter[] = "=,";
@@ -111,12 +111,12 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
             if (comp == LOCAL)
             {
                 sprintf(buff, "Error at %s", print_clean);
-                print_error(buff, cb_error_local);
+                print_error(buff, new_sock, cb_error_local);
             }
             else if (comp == SERVER)
             {
                 sprintf(buff, "Error at %s", print_clean);
-                print_error(buff, cb_error_server);
+                print_error(buff, new_sock, cb_error_server);
             }
             goto end;
         }
@@ -166,11 +166,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == LOCAL)
             {
-                print_error("Empty args in set option", cb_error_local);
+                print_error("Empty args in set option", new_sock, cb_error_local);
             }
             else if (comp == SERVER)
             {
-                print_error("Empty args in set option", cb_error_server);
+                print_error("Empty args in set option", new_sock, cb_error_server);
             }
             goto end;
         }
@@ -181,11 +181,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == LOCAL)
             {
-                print_error("Error more then 6 args in set option", cb_error_local);
+                print_error("Error more then 6 args in set option", new_sock, cb_error_local);
             }
             else if (comp == SERVER)
             {
-                print_error("Error more then 6 args in set option", cb_error_server);
+                print_error("Error more then 6 args in set option", new_sock, cb_error_server);
             }
             goto end;
         }
@@ -195,11 +195,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
         {
             if (comp == LOCAL)
             {
-                print_error("Error opening file.", cb_error_local);
+                print_error("Error opening file.", new_sock, cb_error_local);
             }
             else if (comp == SERVER)
             {
-                print_error("Error opening file.", cb_error_server);
+                print_error("Error opening file.", new_sock, cb_error_server);
             }
             *error_file_open = true;
             goto end;
@@ -249,11 +249,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                     sort_list(list, *new_list_length);
                     if (comp == LOCAL)
                     {
-                        print_error("update customer debt.", cb_error_local);
+                        print_error("update customer debt.", new_sock, cb_error_local);
                     }
                     else if (comp == SERVER)
                     {
-                        print_error("update customer debt.", cb_error_server);
+                        print_error("update customer debt.", new_sock, cb_error_server);
                     }
                     break;
                 }
@@ -261,11 +261,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
                 {
                     if (comp == LOCAL)
                     {
-                        print_error("Customer with same id but has diffrent name.", cb_error_local);
+                        print_error("Customer with same id but has diffrent name.", new_sock, cb_error_local);
                     }
                     else if (comp == SERVER)
                     {
-                        print_error("Customer with same id but has diffrent name.", cb_error_server);
+                        print_error("Customer with same id but has diffrent name.", new_sock, cb_error_server);
                     }
                     free(customer);
                     goto end;
@@ -283,11 +283,11 @@ Customer *set_option_menu(Customer *list, int *new_list_length, char *buffer, bo
 
             if (comp == LOCAL)
             {
-                print_error("new customer add successfully.", cb_error_local);
+                print_error("new customer add successfully.", new_sock, cb_error_local);
             }
             else if (comp == SERVER)
             {
-                print_error("new customer add successfully.", cb_error_server);
+                print_error("new customer add successfully.", new_sock, cb_error_server);
             }
         }
 

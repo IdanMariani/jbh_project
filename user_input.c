@@ -1,6 +1,6 @@
 #include "user_input.h"
 
-void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, int comp)
+void error_handle(char *buffer, char *portion2, char *portion3, bool *error_input, int comp, int new_sock)
 {
     char *select_menu[] = {"select first name", "select last name", "select id", "select phone", "select debt", "select date"};
     char select_dilimiter[] = "=<>";
@@ -20,11 +20,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == LOCAL)
         {
-            print_error("Error first args", cb_error_local);
+            print_error("Error first args", new_sock, cb_error_local);
         }
         else if (comp == SERVER)
         {
-            print_error("Error first args", cb_error_server);
+            print_error("Error first args", new_sock, cb_error_server);
         }
         return;
     }
@@ -46,11 +46,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
                 *error_input = true;
                 if (comp == LOCAL)
                 {
-                    print_error("Error first args", cb_error_local);
+                    print_error("Error first args", new_sock, cb_error_local);
                 }
                 else if (comp == SERVER)
                 {
-                    print_error("Error first args", cb_error_server);
+                    print_error("Error first args", new_sock, cb_error_server);
                 }
                 return;
             }
@@ -62,11 +62,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == LOCAL)
         {
-            print_error("Error first args", cb_error_local);
+            print_error("Error first args", new_sock, cb_error_local);
         }
         else if (comp == SERVER)
         {
-            print_error("Error first args", cb_error_server);
+            print_error("Error first args", new_sock, cb_error_server);
         }
         return;
     }
@@ -107,11 +107,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == LOCAL)
         {
-            print_error("Error third args", cb_error_local);
+            print_error("Error third args", new_sock, cb_error_local);
         }
         else if (comp == SERVER)
         {
-            print_error("Error third args", cb_error_server);
+            print_error("Error third args", new_sock, cb_error_server);
         }
         return;
     }
@@ -121,11 +121,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == LOCAL)
         {
-            print_error("Error second args", cb_error_local);
+            print_error("Error second args", new_sock, cb_error_local);
         }
         else if (comp == SERVER)
         {
-            print_error("Error second args", cb_error_server);
+            print_error("Error second args", new_sock, cb_error_server);
         }
         return;
     }
@@ -135,11 +135,11 @@ void error_handle(char *buffer, char *portion2, char *portion3, bool *error_inpu
         *error_input = true;
         if (comp == LOCAL)
         {
-            print_error("Error at validation", cb_error_local);
+            print_error("Error at validation", new_sock, cb_error_local);
         }
         else if (comp == SERVER)
         {
-            print_error("Error at validation", cb_error_server);
+            print_error("Error at validation", new_sock, cb_error_server);
         }
         return;
     }

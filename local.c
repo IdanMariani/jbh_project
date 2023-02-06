@@ -5,7 +5,6 @@
 #include "option_menu.h"
 #include "user_input.h"
 
-
 void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 {
     char buffer[MAX_BUFFER] = {0};
@@ -13,7 +12,7 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
     char portion3[MAX_BUFFER] = {0};
 
     while (1)
-    {   
+    {
         bool error_input = false;
         bool set_flag = false;
 
@@ -38,23 +37,23 @@ void all_input_logic(Customer *list, int new_list_length, bool *has_quit)
 
         if (strcmp(buffer, "print") == 0)
         {
-            print_list(list, new_list_length, cb_print_local);
+            print_list(list, new_list_length, 0,cb_print_local);
             goto end;
         }
 
-        error_handle(buffer, &portion2, portion3, &error_input, LOCAL);
+        error_handle(buffer, &portion2, portion3, &error_input, LOCAL,0);
         if (error_input == true)
         {
             goto end;
         }
 
-        select_option_menu(list, &new_list_length, buffer, portion2, portion3, LOCAL);
+        select_option_menu(list, &new_list_length, buffer, portion2, portion3, LOCAL,0);
 
     set_option:
         if (set_flag == true)
         {
             bool error_file_open = false;
-            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, LOCAL);
+            list = set_option_menu(list, &new_list_length, buffer, &error_file_open, LOCAL,0);
             if (error_file_open)
             {
                 return;
@@ -111,7 +110,7 @@ int main(int argc, char *argv[])
     prompt_menu(&prompt_menu_for_first_time);
 
     sort_list(list, new_list_length);
-    print_list(list, new_list_length, cb_print_local);
+    print_list(list, new_list_length, 0,cb_print_local);
 
     bool has_quit = false;
     all_input_logic(list, new_list_length, &has_quit);
