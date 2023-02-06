@@ -164,9 +164,9 @@ int main(int argc, char **argv)
 
         Args_Parms args =
             {
-                args.list = &list,
-                args.new_list_length = &list_length,
-                args.sock = new_sock,
+                .list = &list,
+                .new_list_length = &list_length,
+                .sock = new_sock,
             };
 
         // pthread_create(&tid, NULL, conn_handler, (void *)new_sock);
